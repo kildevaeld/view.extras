@@ -169,7 +169,7 @@ export class BaseCollectionView<T extends Element, U extends ICollection<M>, M, 
     private _proxyChildViewEvents(view: IEventEmitter) {
         const fn = (eventName: string, ...args: any[]) => {
             eventName = this.options.eventProxyName + ':' + eventName;
-            triggerMethodOn(this, eventName, [view].concat(args));
+            triggerMethodOn(this, eventName, ...[view].concat(args));
         }
 
         view.on('*', fn);
