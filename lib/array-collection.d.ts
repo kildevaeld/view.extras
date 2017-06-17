@@ -13,6 +13,7 @@ export declare class ArrayCollection<T> extends EventEmitter implements ICollect
     find(fn: (m: T) => boolean): T;
     sort(fn: (a: T, b: T) => number): void;
     clear(): void;
+    reset(a?: T[]): void;
     destroy(): void;
     array(): T[];
 }

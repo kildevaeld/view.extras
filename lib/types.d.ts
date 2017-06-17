@@ -33,6 +33,8 @@ export declare namespace ModelEvents {
     const Remove = "remove";
     const Clear = "clear";
     const Sort = "sort";
+    const Change = "change";
+    const Reset = "reset";
 }
 export declare namespace MetaKeys {
     const Attributes: symbol;

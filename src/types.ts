@@ -46,6 +46,8 @@ export namespace ModelEvents {
     export const Remove = "remove";
     export const Clear = "clear";
     export const Sort = "sort";
+    export const Change = "change";
+    export const Reset = "reset";
 }
 
 export namespace MetaKeys {

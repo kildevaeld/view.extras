@@ -54,12 +54,17 @@ export class ArrayCollection<T> extends EventEmitter implements ICollection<T> {
 
     sort(fn: (a: T, b: T) => number) {
         this.a.sort(fn);
-        this.trigger('sort');
+        this.trigger(ModelEvents.Sort);
     }
 
     clear() {
         this.a = [];
-        this.trigger(ModelEvents.Clear);
+        this.trigger(ModelEvents.Reset);
+    }
+
+    reset(a?: T[]) {
+        this.a = a || [];
+        this.trigger(ModelEvents.Reset);
     }
 
     destroy() {
@@ -68,6 +73,8 @@ export class ArrayCollection<T> extends EventEmitter implements ICollection<T> {
         }
         this.a = [];
     }
+
+
 
     array() { return [...this.a]; }
 }

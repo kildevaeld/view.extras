@@ -133,12 +133,14 @@ export class BaseCollectionView<T extends Element, U extends ICollection<M>, M, 
     }
 
     private _modelAdded(item: M, index: number) {
+        if (!this.el) return;
         let view = this._createChildView(item);
         this._renderChildView(view);
         this._attachChildView(this._getChildViewContainer(), view, index);
     }
 
     private _modelRemoved(_: M, index: number) {
+        if (!this.el) return;
         let view = this._childViews[index];
         this._destroyChildView(view);
     }
@@ -147,7 +149,7 @@ export class BaseCollectionView<T extends Element, U extends ICollection<M>, M, 
         if (isEventEmitter(this.collection)) {
             this.collection.on(ModelEvents.Add, this._modelAdded, this);
             this.collection.on(ModelEvents.Remove, this._modelRemoved, this);
-            this.collection.on(ModelEvents.Clear, this._removeChildViews, this);
+            this.collection.on(ModelEvents.Reset, this.render, this);
             this.collection.on(ModelEvents.Sort, this.render, this);
         }
     }
@@ -162,7 +164,7 @@ export class BaseCollectionView<T extends Element, U extends ICollection<M>, M, 
         let sel = this.options.childViewContainer || this.childViewContainer
         if (!sel) return this.el!;
         let el = this.el!.querySelector(sel);
-        if (!el) throw new Error(`tag not found: ${this.options.childViewContainer}`);
+        if (!el) throw new Error(`tag not found: ${sel}`);
         return el!;
     }
 

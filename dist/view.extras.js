@@ -115,6 +115,8 @@ var ModelEvents;
     ModelEvents.Remove = "remove";
     ModelEvents.Clear = "clear";
     ModelEvents.Sort = "sort";
+    ModelEvents.Change = "change";
+    ModelEvents.Reset = "reset";
 })(ModelEvents = exports.ModelEvents || (exports.ModelEvents = {}));
 var MetaKeys;
 (function (MetaKeys) {
@@ -551,13 +553,19 @@ var ArrayCollection = function (_event_emitter_1$Even) {
         key: "sort",
         value: function sort(fn) {
             this.a.sort(fn);
-            this.trigger('sort');
+            this.trigger(types_1.ModelEvents.Sort);
         }
     }, {
         key: "clear",
         value: function clear() {
             this.a = [];
-            this.trigger(types_1.ModelEvents.Clear);
+            this.trigger(types_1.ModelEvents.Reset);
+        }
+    }, {
+        key: "reset",
+        value: function reset(a) {
+            this.a = a || [];
+            this.trigger(types_1.ModelEvents.Reset);
         }
     }, {
         key: "destroy",
@@ -741,6 +749,7 @@ var BaseCollectionView = function (_view_1$BaseView) {
     }, {
         key: "_modelAdded",
         value: function _modelAdded(item, index) {
+            if (!this.el) return;
             var view = this._createChildView(item);
             this._renderChildView(view);
             this._attachChildView(this._getChildViewContainer(), view, index);
@@ -748,6 +757,7 @@ var BaseCollectionView = function (_view_1$BaseView) {
     }, {
         key: "_modelRemoved",
         value: function _modelRemoved(_, index) {
+            if (!this.el) return;
             var view = this._childViews[index];
             this._destroyChildView(view);
         }
@@ -757,7 +767,7 @@ var BaseCollectionView = function (_view_1$BaseView) {
             if (mixins_1.isEventEmitter(this.collection)) {
                 this.collection.on(types_1.ModelEvents.Add, this._modelAdded, this);
                 this.collection.on(types_1.ModelEvents.Remove, this._modelRemoved, this);
-                this.collection.on(types_1.ModelEvents.Clear, this._removeChildViews, this);
+                this.collection.on(types_1.ModelEvents.Reset, this.render, this);
                 this.collection.on(types_1.ModelEvents.Sort, this.render, this);
             }
         }
@@ -774,7 +784,7 @@ var BaseCollectionView = function (_view_1$BaseView) {
             var sel = this.options.childViewContainer || this.childViewContainer;
             if (!sel) return this.el;
             var el = this.el.querySelector(sel);
-            if (!el) throw new Error("tag not found: " + this.options.childViewContainer);
+            if (!el) throw new Error("tag not found: " + sel);
             return el;
         }
     }, {
