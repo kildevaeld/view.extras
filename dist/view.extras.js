@@ -655,7 +655,9 @@ var BaseCollectionView = function (_view_1$BaseView) {
         value: function render() {
             this.undelegateEvents();
             this._removeChildViews();
-            if (!this.el || !this.collection) return this;
+            //if (!this.el || !this.collection) return this;
+            _get(BaseCollectionView.prototype.__proto__ || Object.getPrototypeOf(BaseCollectionView.prototype), "render", this).call(this);
+            if (!this.collection) return this;
             this._renderCollection();
             this.delegateEvents();
             return this;

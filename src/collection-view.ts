@@ -47,10 +47,12 @@ export class BaseCollectionView<T extends Element, U extends ICollection<M>, M, 
 
     render() {
         this.undelegateEvents();
-
         this._removeChildViews();
 
-        if (!this.el || !this.collection) return this;
+        //if (!this.el || !this.collection) return this;
+        super.render();
+
+        if (!this.collection) return this;
 
         this._renderCollection();
 
