@@ -32,7 +32,7 @@ export class BaseCollectionView<T extends Element, U extends ICollection<M>, M, 
             this._addModelEvents();
         }
 
-        this.render();
+        //this.render();
 
     }
 
@@ -52,7 +52,7 @@ export class BaseCollectionView<T extends Element, U extends ICollection<M>, M, 
         //if (!this.el || !this.collection) return this;
         super.render();
 
-        if (!this.collection) return this;
+        if (!this.collection || !this.el) return this;
 
         this._renderCollection();
 

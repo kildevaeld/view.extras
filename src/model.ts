@@ -45,6 +45,10 @@ export class Model extends EventEmitter {
     }
 
     toJSON() {
-        return this[MetaKeys.Attributes] || {};
+        let out = {};
+        for (let entry of this[MetaKeys.Attributes].entries()) {
+            out[entry[0]] = entry[1];
+        }
+        return out;
     }
 }

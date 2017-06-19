@@ -6,5 +6,5 @@ export declare class Model extends EventEmitter {
     get<U>(key: PropertyKey): U;
     has(key: PropertyKey): boolean;
     unset<U>(key: PropertyKey): U | undefined;
-    toJSON(): any;
+    toJSON(): {};
 }

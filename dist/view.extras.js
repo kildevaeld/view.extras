@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 9);
+/******/ 	return __webpack_require__(__webpack_require__.s = 10);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -134,21 +134,58 @@ exports.isDestroyable = isDestroyable;
 "use strict";
 
 
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var Mixins = __webpack_require__(3);
+// Typescript typesystem quirk.
+
+var EventEmitterBase = function EventEmitterBase() {
+  _classCallCheck(this, EventEmitterBase);
+};
+
+exports.EventEmitterBase = EventEmitterBase;
+
+var EventEmitter = function (_Mixins$EventEmitter) {
+  _inherits(EventEmitter, _Mixins$EventEmitter);
+
+  function EventEmitter() {
+    _classCallCheck(this, EventEmitter);
+
+    return _possibleConstructorReturn(this, (EventEmitter.__proto__ || Object.getPrototypeOf(EventEmitter)).apply(this, arguments));
+  }
+
+  return EventEmitter;
+}(Mixins.EventEmitter(EventEmitterBase));
+
+exports.EventEmitter = EventEmitter;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 function __export(m) {
     for (var p in m) {
         if (!exports.hasOwnProperty(p)) exports[p] = m[p];
     }
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(12));
 __export(__webpack_require__(13));
-__export(__webpack_require__(10));
 __export(__webpack_require__(14));
 __export(__webpack_require__(11));
-__export(__webpack_require__(3));
+__export(__webpack_require__(15));
+__export(__webpack_require__(12));
+__export(__webpack_require__(4));
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -329,44 +366,112 @@ exports.EventEmitter = EventEmitter;
 })(EventEmitter = exports.EventEmitter || (exports.EventEmitter = {}));
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 Object.defineProperty(exports, "__esModule", { value: true });
-var Mixins = __webpack_require__(2);
-// Typescript typesystem quirk.
+var utils_1 = __webpack_require__(6);
+var types_1 = __webpack_require__(1);
+var event_emitter_1 = __webpack_require__(2);
 
-var EventEmitterBase = function EventEmitterBase() {
-  _classCallCheck(this, EventEmitterBase);
-};
+var Model = function (_event_emitter_1$Even) {
+    _inherits(Model, _event_emitter_1$Even);
 
-exports.EventEmitterBase = EventEmitterBase;
+    function Model() {
+        _classCallCheck(this, Model);
 
-var EventEmitter = function (_Mixins$EventEmitter) {
-  _inherits(EventEmitter, _Mixins$EventEmitter);
+        var _this = _possibleConstructorReturn(this, (Model.__proto__ || Object.getPrototypeOf(Model)).call(this));
 
-  function EventEmitter() {
-    _classCallCheck(this, EventEmitter);
+        _this[types_1.MetaKeys.Attributes] = new Map();
+        return _this;
+    }
 
-    return _possibleConstructorReturn(this, (EventEmitter.__proto__ || Object.getPrototypeOf(EventEmitter)).apply(this, arguments));
-  }
+    _createClass(Model, [{
+        key: "set",
+        value: function set(key, value) {
+            var old = this.get(key);
+            if (utils_1.equal(old, value)) {
+                return this;
+            }
+            this[types_1.MetaKeys.Attributes].set(key, value);
+            this.trigger("change:" + key, old, value);
+            this.trigger('change', _defineProperty({}, key, value));
+        }
+    }, {
+        key: "get",
+        value: function get(key) {
+            return this[types_1.MetaKeys.Attributes].get(key);
+        }
+    }, {
+        key: "has",
+        value: function has(key) {
+            return this[types_1.MetaKeys.Attributes].has(key);
+        }
+    }, {
+        key: "unset",
+        value: function unset(key) {
+            if (this.has(key)) {
+                var val = this.get(key);
+                this[types_1.MetaKeys.Attributes].delete(key);
+                this.trigger("remove:" + key, val);
+                this.trigger('remove', key, val);
+                return val;
+            }
+            return void 0;
+        }
+    }, {
+        key: "toJSON",
+        value: function toJSON() {
+            var out = {};
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
 
-  return EventEmitter;
-}(Mixins.EventEmitter(EventEmitterBase));
+            try {
+                for (var _iterator = this[types_1.MetaKeys.Attributes].entries()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var entry = _step.value;
 
-exports.EventEmitter = EventEmitter;
+                    out[entry[0]] = entry[1];
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+
+            return out;
+        }
+    }]);
+
+    return Model;
+}(event_emitter_1.EventEmitter);
+
+exports.Model = Model;
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -470,7 +575,7 @@ function eq(a, b, aStack, bStack) {
 ;
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -488,7 +593,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var types_1 = __webpack_require__(1);
-var event_emitter_1 = __webpack_require__(4);
+var event_emitter_1 = __webpack_require__(2);
 
 var ArrayCollection = function (_event_emitter_1$Even) {
     _inherits(ArrayCollection, _event_emitter_1$Even);
@@ -615,7 +720,7 @@ var ArrayCollection = function (_event_emitter_1$Even) {
 exports.ArrayCollection = ArrayCollection;
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -636,7 +741,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 Object.defineProperty(exports, "__esModule", { value: true });
 var view_1 = __webpack_require__(0);
 var types_1 = __webpack_require__(1);
-var mixins_1 = __webpack_require__(2);
+var mixins_1 = __webpack_require__(3);
 
 var BaseCollectionView = function (_view_1$BaseView) {
     _inherits(BaseCollectionView, _view_1$BaseView);
@@ -657,7 +762,7 @@ var BaseCollectionView = function (_view_1$BaseView) {
             this._removeChildViews();
             //if (!this.el || !this.collection) return this;
             _get(BaseCollectionView.prototype.__proto__ || Object.getPrototypeOf(BaseCollectionView.prototype), "render", this).call(this);
-            if (!this.collection) return this;
+            if (!this.collection || !this.el) return this;
             this._renderCollection();
             this.delegateEvents();
             return this;
@@ -822,7 +927,7 @@ var BaseCollectionView = function (_view_1$BaseView) {
             if (this.collection) {
                 this._addModelEvents();
             }
-            this.render();
+            //this.render();
         },
         get: function get() {
             return this._collection;
@@ -849,7 +954,7 @@ var CollectionView = function (_BaseCollectionView) {
 exports.CollectionView = CollectionView;
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -858,8 +963,8 @@ exports.CollectionView = CollectionView;
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var model_1 = __webpack_require__(15);
-var utils_1 = __webpack_require__(5);
+var model_1 = __webpack_require__(5);
+var utils_1 = __webpack_require__(6);
 function view(selector) {
     return function (target, prop) {
         var View = Reflect.getOwnMetadata("design:type", target, prop);
@@ -913,7 +1018,7 @@ function observable(target, prop, descriptor) {
 exports.observable = observable;
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -925,16 +1030,18 @@ function __export(m) {
     }
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-var Mixins = __webpack_require__(2);
+var Mixins = __webpack_require__(3);
 exports.Mixins = Mixins;
 __export(__webpack_require__(1));
-__export(__webpack_require__(6));
 __export(__webpack_require__(7));
 __export(__webpack_require__(8));
+__export(__webpack_require__(9));
+__export(__webpack_require__(5));
+__export(__webpack_require__(2));
 //import './test';
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -952,7 +1059,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var view_1 = __webpack_require__(0);
-var event_emitter_1 = __webpack_require__(3);
+var event_emitter_1 = __webpack_require__(4);
 function EventListener(Base) {
     return function (_Base) {
         _inherits(_class, _Base);
@@ -1022,7 +1129,7 @@ function EventListener(Base) {
 exports.EventListener = EventListener;
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1101,7 +1208,7 @@ function ViewElement(Base) {
 exports.ViewElement = ViewElement;
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1199,7 +1306,7 @@ function ViewMountable(Base) {
 exports.ViewMountable = ViewMountable;
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1217,7 +1324,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var view_1 = __webpack_require__(0);
-var event_emitter_1 = __webpack_require__(3);
+var event_emitter_1 = __webpack_require__(4);
 var types_1 = __webpack_require__(1);
 function ViewObservable(Base) {
     return function (_Base) {
@@ -1286,7 +1393,7 @@ function ViewObservable(Base) {
 exports.ViewObservable = ViewObservable;
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1352,85 +1459,6 @@ function ViewTemplate(Base) {
     }(Base);
 }
 exports.ViewTemplate = ViewTemplate;
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var utils_1 = __webpack_require__(5);
-var types_1 = __webpack_require__(1);
-var event_emitter_1 = __webpack_require__(4);
-
-var Model = function (_event_emitter_1$Even) {
-    _inherits(Model, _event_emitter_1$Even);
-
-    function Model() {
-        _classCallCheck(this, Model);
-
-        var _this = _possibleConstructorReturn(this, (Model.__proto__ || Object.getPrototypeOf(Model)).call(this));
-
-        _this[types_1.MetaKeys.Attributes] = new Map();
-        return _this;
-    }
-
-    _createClass(Model, [{
-        key: "set",
-        value: function set(key, value) {
-            var old = this.get(key);
-            if (utils_1.equal(old, value)) {
-                return this;
-            }
-            this[types_1.MetaKeys.Attributes].set(key, value);
-            this.trigger("change:" + key, old, value);
-            this.trigger('change', _defineProperty({}, key, value));
-        }
-    }, {
-        key: "get",
-        value: function get(key) {
-            return this[types_1.MetaKeys.Attributes].get(key);
-        }
-    }, {
-        key: "has",
-        value: function has(key) {
-            return this[types_1.MetaKeys.Attributes].has(key);
-        }
-    }, {
-        key: "unset",
-        value: function unset(key) {
-            if (this.has(key)) {
-                var val = this.get(key);
-                this[types_1.MetaKeys.Attributes].delete(key);
-                this.trigger("remove:" + key, val);
-                this.trigger('remove', key, val);
-                return val;
-            }
-            return void 0;
-        }
-    }, {
-        key: "toJSON",
-        value: function toJSON() {
-            return this[types_1.MetaKeys.Attributes] || {};
-        }
-    }]);
-
-    return Model;
-}(event_emitter_1.EventEmitter);
-
-exports.Model = Model;
 
 /***/ })
 /******/ ]);

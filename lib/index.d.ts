@@ -3,4 +3,6 @@ export * from './types';
 export * from './array-collection';
 export * from './collection-view';
 export * from './decorators';
+export * from './model';
+export * from './event-emitter';
 export { Mixins };
