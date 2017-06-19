@@ -4,10 +4,7 @@ export function equal(a: any, b: any): boolean {
     return eq(a, b, [], [])
 }
 
-
-
 const _has = Object.prototype.hasOwnProperty
-
 function eq(a: any, b: any, aStack: any[], bStack: any[]): boolean {
     // Identical objects are equal. `0 === -0`, but they aren't identical.
     // See the [Harmony `egal` proposal](http://wiki.ecmascript.org/doku.php?id=harmony:egal).

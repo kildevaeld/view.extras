@@ -5,6 +5,7 @@ export interface IInvoker {
 export declare var Invoker: {
     get<T extends IView>(V: Constructor<T>): T;
 };
+export declare function setInvoker(i: IInvoker): void;
 export interface IViewMountable {
 }
 export declare namespace Events {

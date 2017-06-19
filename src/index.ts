@@ -7,6 +7,7 @@ export * from './collection-view';
 export * from './decorators';
 export * from './model';
 export * from './event-emitter';
+export * from './utils';
 //export * from './html';
 export { Mixins }
 

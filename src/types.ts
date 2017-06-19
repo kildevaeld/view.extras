@@ -11,6 +11,10 @@ export var Invoker = {
     }
 }
 
+export function setInvoker(i: IInvoker) {
+    Invoker = i;
+}
+
 export interface IViewMountable {
     //_views: ViewMap;
 }
