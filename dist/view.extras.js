@@ -772,6 +772,19 @@ var BaseCollectionView = function (_view_1$BaseView) {
             return this;
         }
     }, {
+        key: "setCollection",
+        value: function setCollection(collection) {
+            if (this._collection == collection) return;
+            if (this.collection) {
+                this._removeModelEvents();
+                this._removeChildViews();
+            }
+            this._collection = collection;
+            if (this.collection) {
+                this._addModelEvents();
+            }
+        }
+    }, {
         key: "_removeChildViews",
         value: function _removeChildViews() {
             if (!this._childViews) {
@@ -922,16 +935,7 @@ var BaseCollectionView = function (_view_1$BaseView) {
     }, {
         key: "collection",
         set: function set(collection) {
-            if (this._collection == collection) return;
-            if (this.collection) {
-                this._removeModelEvents();
-                this._removeChildViews();
-            }
-            this._collection = collection;
-            if (this.collection) {
-                this._addModelEvents();
-            }
-            //this.render();
+            this.setCollection(collection);
         },
         get: function get() {
             return this._collection;
@@ -1144,6 +1148,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -1179,7 +1185,14 @@ function ViewElement(Base) {
                     className = view_1.getOption('className', [this.options, this]),
                     attr = view_1.getOption('attributes', [this.options, this]),
                     el = document.createElement(tagName);
-                if (className) el.classList.add(className);
+                if (className) {
+                    var _el$classList;
+
+                    var classes = className.split(' ').map(function (m) {
+                        return m.trim();
+                    });
+                    (_el$classList = el.classList).add.apply(_el$classList, _toConsumableArray(classes));
+                }
                 if (attr) {
                     for (var key in attr) {
                         el.setAttribute(key, attr[key]);

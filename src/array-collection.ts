@@ -3,7 +3,6 @@ import { ICollection, ModelEvents, isDestroyable } from './types';
 import { EventEmitter } from './event-emitter';
 
 export class ArrayCollection<T> extends EventEmitter implements ICollection<T> {
-
     constructor(private a: Array<T> = []) {
         super();
 
@@ -63,6 +62,7 @@ export class ArrayCollection<T> extends EventEmitter implements ICollection<T> {
     }
 
     reset(a?: T[]) {
+
         this.a = a || [];
         this.trigger(ModelEvents.Reset);
     }

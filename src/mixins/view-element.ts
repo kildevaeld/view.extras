@@ -18,7 +18,10 @@ export function ViewElement<T extends Constructor<BaseView<E>>, E extends Elemen
                 attr = getOption<{ [key: string]: string }>('attributes', [this.options, this]),
                 el = document.createElement(tagName);
 
-            if (className) el.classList.add(className);
+            if (className) {
+                let classes = className.split(' ').map(m => m.trim());
+                el.classList.add(...classes);
+            }
             if (attr) {
                 for (let key in attr) {
                     el.setAttribute(key, attr[key]);

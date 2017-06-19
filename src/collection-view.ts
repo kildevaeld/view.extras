@@ -20,20 +20,7 @@ export class BaseCollectionView<T extends Element, U extends ICollection<M>, M, 
     childViewContainer?: string;
 
     set collection(collection: U | undefined) {
-        if (this._collection == collection) return;
-        if (this.collection) {
-            this._removeModelEvents();
-            this._removeChildViews();
-        }
-
-        this._collection = collection;
-
-        if (this.collection) {
-            this._addModelEvents();
-        }
-
-        //this.render();
-
+        this.setCollection(collection);
     }
 
     get collection(): U | undefined {
@@ -59,6 +46,21 @@ export class BaseCollectionView<T extends Element, U extends ICollection<M>, M, 
         this.delegateEvents();
 
         return this;
+    }
+
+    protected setCollection(collection?: U) {
+        if (this._collection == collection) return;
+        if (this.collection) {
+            this._removeModelEvents();
+            this._removeChildViews();
+        }
+
+        this._collection = collection;
+
+        if (this.collection) {
+            this._addModelEvents();
+        }
+
     }
 
     protected _removeChildViews() {

@@ -14,6 +14,7 @@ export declare class BaseCollectionView<T extends Element, U extends ICollection
     collection: U | undefined;
     constructor(options?: BaseCollectionViewOptions<T, V>);
     render(): this;
+    protected setCollection(collection?: U): void;
     protected _removeChildViews(): void;
     protected _renderCollection(collection?: U): void;
     protected _renderChildView(view: V): void;
