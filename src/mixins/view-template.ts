@@ -1,10 +1,6 @@
 import { Constructor, BaseView, result } from 'view';
+import { IViewTemplate } from '../types';
 
-export interface IViewTemplate {
-    template?: string | ((data: any) => string);
-    getTemplateData(): any;
-    renderTemplate(): void
-}
 
 export function ViewTemplate<T extends Constructor<BaseView<E>>, E extends Element>(Base: T): Constructor<IViewTemplate> & T {
     return class extends Base {

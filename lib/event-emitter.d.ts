@@ -1,4 +1,4 @@
-import { IEventEmitter } from './mixins';
+import { IEventEmitter } from './types';
 export declare class EventEmitterBase {
 }
 declare const EventEmitter_base: (new (...args: any[]) => IEventEmitter) & typeof EventEmitterBase;

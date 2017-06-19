@@ -1,14 +1,7 @@
 
 import { Constructor, BaseView, getOption } from 'view';
+import { IViewElement } from '../types'
 
-export interface IViewElement {
-    tagName?: string;
-    className?: string;
-    attributes?: { [key: string]: string };
-
-    remove(): any;
-
-}
 
 export function ViewElement<T extends Constructor<BaseView<E>>, E extends Element>(Base: T): Constructor<IViewElement> & T {
     return class extends Base {

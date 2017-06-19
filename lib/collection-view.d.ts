@@ -1,6 +1,5 @@
 import { BaseView, BaseViewOptions, View, Constructor } from 'view';
-import { ICollection } from './types';
-import { IViewElement } from './mixins';
+import { ICollection, IViewElement } from './types';
 export interface BaseCollectionViewOptions<T extends Element, U extends View> extends BaseViewOptions<T> {
     childViewContainer?: string;
     eventProxyName?: string;
