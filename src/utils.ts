@@ -174,3 +174,8 @@ export function setValue(el: HTMLElement, value?: any) {
     }
 
 }
+
+const _slice = Array.prototype.slice;
+export function slice<T>(a: ArrayLike<T>, index?: number, end?: number): T[] {
+    return _slice.call(a, index, end);
+}

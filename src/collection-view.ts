@@ -27,6 +27,10 @@ export class BaseCollectionView<T extends Element, U extends ICollection<M>, M, 
         return this._collection;
     }
 
+    get childViews(): V[] {
+        return this._childViews;
+    }
+
     constructor(options: BaseCollectionViewOptions<T, V> = {}) {
         options.eventProxyName = options.eventProxyName || "childView";
         super(options);

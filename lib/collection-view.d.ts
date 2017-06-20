@@ -12,6 +12,7 @@ export declare class BaseCollectionView<T extends Element, U extends ICollection
     childView?: Constructor<V>;
     childViewContainer?: string;
     collection: U | undefined;
+    readonly childViews: V[];
     constructor(options?: BaseCollectionViewOptions<T, V>);
     render(): this;
     protected setCollection(collection?: U): void;

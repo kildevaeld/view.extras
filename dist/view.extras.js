@@ -367,6 +367,11 @@ function setValue(el, value) {
     }
 }
 exports.setValue = setValue;
+var _slice = Array.prototype.slice;
+function slice(a, index, end) {
+    return _slice.call(a, index, end);
+}
+exports.slice = slice;
 
 /***/ }),
 /* 5 */
@@ -1268,6 +1273,11 @@ var BaseCollectionView = function (_view_1$BaseView) {
         },
         get: function get() {
             return this._collection;
+        }
+    }, {
+        key: "childViews",
+        get: function get() {
+            return this._childViews;
         }
     }]);
 

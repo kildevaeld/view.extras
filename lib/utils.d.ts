@@ -20,3 +20,4 @@ export declare function getValue(el: HTMLElement, coerce?: boolean): string | nu
  * @param {*} [value]
  */
 export declare function setValue(el: HTMLElement, value?: any): void;
+export declare function slice<T>(a: ArrayLike<T>, index?: number, end?: number): T[];
