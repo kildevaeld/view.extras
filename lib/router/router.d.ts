@@ -8,12 +8,13 @@ export interface IRouterOptions {
     pushState?: boolean;
 }
 export declare class BaseRouter extends EventEmitter {
-    options: IRouterOptions;
+    private options;
     history: HistoryApi;
     constructor(options?: IRouterOptions);
     route(route: RegExp | string, name: RouteHandler | string, handler?: RouteHandler): this;
     protected execute(callback: RouteHandler, name: string, route: string | RegExp, args: any[]): void;
     navigate(fragment: string, options?: NavigateOptions): this;
+    removeAllRoutes(): void;
     start(): void;
     private _routeToRegExp(route);
     private _extractParameters(route, fragment);

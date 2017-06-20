@@ -1,33 +1,66 @@
 
 import { ICollection, ModelEvents, isDestroyable } from './types';
 import { EventEmitter } from './event-emitter';
+import deprecated from 'deprecated-decorator';
 
 export class ArrayCollection<T> extends EventEmitter implements ICollection<T> {
     constructor(private a: Array<T> = []) {
         super();
-
     }
 
+    /**
+     * The length of the array
+     * 
+     * @readonly
+     * @type {number}
+     * @memberof ArrayCollection
+     */
     get length(): number {
         return this.a.length;
     }
 
+    /**
+     * Get item at index
+     * 
+     * @param {number} index 
+     * @returns {(T | undefined)} 
+     * 
+     * @memberof ArrayCollection
+     */
     item(index: number): T | undefined {
         if (index >= this.a.length) return undefined;
-
         return this.a[index];
     }
 
-    push(m: T) {
+    /**
+     * Push an item and optionally trigger a change event
+     * 
+     * @param {T} m 
+     * @param {boolean} [trigger=true] 
+     * 
+     * @memberof ArrayCollection
+     */
+    push(m: T, trigger = true) {
         this.a.push(m);
-        this.trigger(ModelEvents.Add, m, this.a.length - 1);
+        if (trigger)
+            this.trigger(ModelEvents.Add, m, this.a.length - 1);
     }
 
-    pop(): T | undefined {
+    /**
+     * Pop a item from the array and optinally trigger a change event
+     * 
+     * @param {boolean} [trigger=true] 
+     * @returns {(T | undefined)} 
+     * 
+     * @memberof ArrayCollection
+     */
+    pop(trigger = true): T | undefined {
         let m = this.a.pop()
-        this.trigger(ModelEvents.Remove, m, this.a.length);
+        if (trigger)
+            this.trigger(ModelEvents.Remove, m, this.a.length);
         return m;
     }
+
 
     insert(m: T, index: number) {
         if (index >= this.length) return;
@@ -47,7 +80,9 @@ export class ArrayCollection<T> extends EventEmitter implements ICollection<T> {
         return m;
     }
 
-    find(fn: (m: T) => boolean) {
+    find(fn: (model: T) => boolean): T | undefined
+    find(fn: (model: T, index: number) => boolean): T | undefined
+    find(fn: (model: T, index: number, obj: T[]) => boolean): T | undefined {
         return this.a.find(fn);
     }
 
@@ -56,15 +91,26 @@ export class ArrayCollection<T> extends EventEmitter implements ICollection<T> {
         this.trigger(ModelEvents.Sort);
     }
 
+    @deprecated("reset")
     clear() {
         this.a = [];
         this.trigger(ModelEvents.Reset);
     }
 
+    /**
+     * Reset the array
+     * 
+     * @param {T[]} [a] 
+     * 
+     * @memberof ArrayCollection
+     */
     reset(a?: T[]) {
-
         this.a = a || [];
         this.trigger(ModelEvents.Reset);
+    }
+
+    filter(fn: (a: T) => boolean): this {
+        return new (<any>this).constructor(this.a.filter(fn));
     }
 
     destroy() {
@@ -74,8 +120,13 @@ export class ArrayCollection<T> extends EventEmitter implements ICollection<T> {
         this.a = [];
     }
 
-
-
+    /**
+     * Returns a copy of the array
+     * 
+     * @returns 
+     * 
+     * @memberof ArrayCollection
+     */
     array() { return [...this.a]; }
 }
 

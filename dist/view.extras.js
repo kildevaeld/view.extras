@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 10);
+/******/ 	return __webpack_require__(__webpack_require__.s = 11);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -181,11 +181,11 @@ function __export(m) {
     }
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(13));
 __export(__webpack_require__(14));
-__export(__webpack_require__(11));
 __export(__webpack_require__(15));
 __export(__webpack_require__(12));
+__export(__webpack_require__(16));
+__export(__webpack_require__(13));
 __export(__webpack_require__(5));
 
 /***/ }),
@@ -291,6 +291,82 @@ function eq(a, b, aStack, bStack) {
     return result;
 }
 ;
+function isPropertyKey(a) {
+    return (typeof a === "undefined" ? "undefined" : _typeof(a)) === 'symbol' || typeof a === 'number' || typeof a === 'string';
+}
+exports.isPropertyKey = isPropertyKey;
+/**
+ * Get value from HTML Elemement
+ *
+ * @export
+ * @param {HTMLElement} el
+ * @param {boolean} [coerce=false]
+ * @returns
+ */
+function getValue(el) {
+    var coerce = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+    var tagName = el.tagName.toLocaleLowerCase(),
+        type = el.type,
+        isInput = tagName,
+        isCheckbox = /checkbox/.test(type),
+        isSelect = /select/.test(el.nodeName);
+    if (isCheckbox) {
+        Boolean(el.checked);
+    } else if (isSelect) {
+        if (!coerce) return el.value || '';
+        var option = el.options[el.selectedIndex];
+        return { value: option.value, text: option.innerText };
+    } else if (isInput) {
+        var input = el;
+        var _type = input.type;
+        switch (_type) {
+            case "number":
+                return coerce ? 'valueAsNumber' in input ? input.valueAsNumber : parseInt(input.value) : input.value;
+            case "date":
+                return coerce ? 'valueAsDate' in input ? input.valueAsDate : new Date(input.value) : input.value;
+            default:
+                return input.value;
+        }
+    }
+    return el.textContent;
+}
+exports.getValue = getValue;
+/**
+ * Set value on an HTMLElmenet
+ *
+ * @export
+ * @param {HTMLElement} el
+ * @param {*} [value]
+ */
+function setValue(el, value) {
+    var tagName = el.tagName.toLocaleLowerCase(),
+        type = el.type,
+        isInput = tagName,
+        isCheckbox = /checkbox/.test(type),
+        isRadio = /radio/.test(type),
+        isRadioOrCheckbox = isRadio || isCheckbox,
+        isSelect = /select/.test(el.nodeName);
+    if (value == null) {
+        value = "";
+    }
+    if (isRadioOrCheckbox) {
+        if (isRadio) {
+            if (String(value) === String(el.value)) {
+                el.checked = true;
+            }
+        } else {
+            el.checked = value;
+        }
+    } else if (String(value) !== value(el)) {
+        if (isInput || isSelect) {
+            el.value = value;
+        } else {
+            el.innerHTML = value;
+        }
+    }
+}
+exports.setValue = setValue;
 
 /***/ }),
 /* 5 */
@@ -322,6 +398,14 @@ function isEventEmitter(a) {
     return a && (a instanceof EventEmitter || view_1.isFunction(a.on) && view_1.isFunction(a.once) && view_1.isFunction(a.off) && view_1.isFunction(a.trigger));
 }
 exports.isEventEmitter = isEventEmitter;
+/**
+ * Makes target, Base, an EventEmitter
+ *
+ * @export
+ * @param {T} Base
+ * @template
+ * @returns {(Constructor<IEventEmitter> & T)}
+ */
 function EventEmitter(Base) {
     return function (_Base) {
         _inherits(_class, _Base);
@@ -543,6 +627,8 @@ var Model = function (_event_emitter_1$Even) {
     }, {
         key: "toJSON",
         value: function toJSON() {
+            var _ = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
             var out = {};
             var _iteratorNormalCompletion = true;
             var _didIteratorError = false;
@@ -583,9 +669,180 @@ exports.Model = Model;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+/*
+    Deprecated Decorator v0.1
+    https://github.com/vilic/deprecated-decorator
+*/
+
+/** @internal */
+
+exports.options = {
+    getWarner: undefined
+};
+function createWarner(type, name, alternative, version, url) {
+    var warnedPositions = {};
+    return function () {
+        var stack = new Error().stack || '';
+        var at = (stack.match(/(?:\s+at\s.+){2}\s+at\s(.+)/) || [undefined, ''])[1];
+        if (/\)$/.test(at)) {
+            at = at.match(/[^(]+(?=\)$)/)[0];
+        } else {
+            at = at.trim();
+        }
+        if (at in warnedPositions) {
+            return;
+        }
+        warnedPositions[at] = true;
+        var message;
+        switch (type) {
+            case 'class':
+                message = 'Class';
+                break;
+            case 'property':
+                message = 'Property';
+                break;
+            case 'method':
+                message = 'Method';
+                break;
+            case 'function':
+                message = 'Function';
+                break;
+        }
+        message += " `" + name + "` has been deprecated";
+        if (version) {
+            message += " since version " + version;
+        }
+        if (alternative) {
+            message += ", use `" + alternative + "` instead";
+        }
+        message += '.';
+        if (at) {
+            message += "\n    at " + at;
+        }
+        if (url) {
+            message += "\nCheck out " + url + " for more information.";
+        }
+        console.warn(message);
+    };
+}
+function decorateProperty(type, name, descriptor, alternative, version, url) {
+    var warner = (exports.options.getWarner || createWarner)(type, name, alternative, version, url);
+    descriptor = descriptor || {
+        writable: true,
+        enumerable: false,
+        configurable: true
+    };
+    var deprecatedDescriptor = {
+        enumerable: descriptor.enumerable,
+        configurable: descriptor.configurable
+    };
+    if (descriptor.get || descriptor.set) {
+        if (descriptor.get) {
+            deprecatedDescriptor.get = function () {
+                warner();
+                return descriptor.get.call(this);
+            };
+        }
+        if (descriptor.set) {
+            deprecatedDescriptor.set = function (value) {
+                warner();
+                return descriptor.set.call(this, value);
+            };
+        }
+    } else {
+        var propertyValue_1 = descriptor.value;
+        deprecatedDescriptor.get = function () {
+            warner();
+            return propertyValue_1;
+        };
+        if (descriptor.writable) {
+            deprecatedDescriptor.set = function (value) {
+                warner();
+                propertyValue_1 = value;
+            };
+        }
+    }
+    return deprecatedDescriptor;
+}
+function decorateFunction(type, target, alternative, version, url) {
+    var name = target.name;
+    var warner = (exports.options.getWarner || createWarner)(type, name, alternative, version, url);
+    var fn = function fn() {
+        warner();
+        return target.apply(this, arguments);
+    };
+    for (var _i = 0, _a = Object.getOwnPropertyNames(target); _i < _a.length; _i++) {
+        var propertyName = _a[_i];
+        var descriptor = Object.getOwnPropertyDescriptor(target, propertyName);
+        if (descriptor.writable) {
+            fn[propertyName] = target[propertyName];
+        } else if (descriptor.configurable) {
+            Object.defineProperty(fn, propertyName, descriptor);
+        }
+    }
+    return fn;
+}
+function deprecated() {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i - 0] = arguments[_i];
+    }
+    var fn = args[args.length - 1];
+    if (typeof fn === 'function') {
+        fn = args.pop();
+    } else {
+        fn = undefined;
+    }
+    var options = args[0];
+    var alternative;
+    var version;
+    var url;
+    if (typeof options === 'string') {
+        alternative = options;
+        version = args[1];
+        url = args[2];
+    } else if (options) {
+        alternative = options.alternative, version = options.version, url = options.url, options;
+    }
+    if (fn) {
+        return decorateFunction('function', fn, alternative, version, url);
+    }
+    return function (target, name, descriptor) {
+        if (typeof name === 'string') {
+            var type = descriptor && typeof descriptor.value === 'function' ? 'method' : 'property';
+            return decorateProperty(type, name, descriptor, alternative, version, url);
+        } else if (typeof target === 'function') {
+            var constructor = decorateFunction('class', target, alternative, version, url);
+            var className = target.name;
+            for (var _i = 0, _a = Object.getOwnPropertyNames(constructor); _i < _a.length; _i++) {
+                var propertyName = _a[_i];
+                var descriptor_1 = Object.getOwnPropertyDescriptor(constructor, propertyName);
+                descriptor_1 = decorateProperty('class', className, descriptor_1, alternative, version, url);
+                if (descriptor_1.writable) {
+                    constructor[propertyName] = target[propertyName];
+                } else if (descriptor_1.configurable) {
+                    Object.defineProperty(constructor, propertyName, descriptor_1);
+                }
+            }
+            return constructor;
+        }
+    };
+}
+exports.deprecated = deprecated;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = deprecated;
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -595,9 +852,21 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) {
+        if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    }return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = this && this.__metadata || function (k, v) {
+    if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var types_1 = __webpack_require__(1);
 var event_emitter_1 = __webpack_require__(2);
+var deprecated_decorator_1 = __webpack_require__(7);
 
 var ArrayCollection = function (_event_emitter_1$Even) {
     _inherits(ArrayCollection, _event_emitter_1$Even);
@@ -612,24 +881,63 @@ var ArrayCollection = function (_event_emitter_1$Even) {
         _this.a = a;
         return _this;
     }
+    /**
+     * The length of the array
+     *
+     * @readonly
+     * @type {number}
+     * @memberof ArrayCollection
+     */
+
 
     _createClass(ArrayCollection, [{
         key: "item",
+
+        /**
+         * Get item at index
+         *
+         * @param {number} index
+         * @returns {(T | undefined)}
+         *
+         * @memberof ArrayCollection
+         */
         value: function item(index) {
             if (index >= this.a.length) return undefined;
             return this.a[index];
         }
+        /**
+         * Push an item and optionally trigger a change event
+         *
+         * @param {T} m
+         * @param {boolean} [trigger=true]
+         *
+         * @memberof ArrayCollection
+         */
+
     }, {
         key: "push",
         value: function push(m) {
+            var trigger = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
             this.a.push(m);
-            this.trigger(types_1.ModelEvents.Add, m, this.a.length - 1);
+            if (trigger) this.trigger(types_1.ModelEvents.Add, m, this.a.length - 1);
         }
+        /**
+         * Pop a item from the array and optinally trigger a change event
+         *
+         * @param {boolean} [trigger=true]
+         * @returns {(T | undefined)}
+         *
+         * @memberof ArrayCollection
+         */
+
     }, {
         key: "pop",
         value: function pop() {
+            var trigger = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
             var m = this.a.pop();
-            this.trigger(types_1.ModelEvents.Remove, m, this.a.length);
+            if (trigger) this.trigger(types_1.ModelEvents.Remove, m, this.a.length);
             return m;
         }
     }, {
@@ -670,11 +978,24 @@ var ArrayCollection = function (_event_emitter_1$Even) {
             this.a = [];
             this.trigger(types_1.ModelEvents.Reset);
         }
+        /**
+         * Reset the array
+         *
+         * @param {T[]} [a]
+         *
+         * @memberof ArrayCollection
+         */
+
     }, {
         key: "reset",
         value: function reset(a) {
             this.a = a || [];
             this.trigger(types_1.ModelEvents.Reset);
+        }
+    }, {
+        key: "filter",
+        value: function filter(fn) {
+            return new this.constructor(this.a.filter(fn));
         }
     }, {
         key: "destroy",
@@ -706,6 +1027,14 @@ var ArrayCollection = function (_event_emitter_1$Even) {
 
             this.a = [];
         }
+        /**
+         * Returns a copy of the array
+         *
+         * @returns
+         *
+         * @memberof ArrayCollection
+         */
+
     }, {
         key: "array",
         value: function array() {
@@ -721,10 +1050,11 @@ var ArrayCollection = function (_event_emitter_1$Even) {
     return ArrayCollection;
 }(event_emitter_1.EventEmitter);
 
+__decorate([deprecated_decorator_1.default("reset"), __metadata("design:type", Function), __metadata("design:paramtypes", []), __metadata("design:returntype", void 0)], ArrayCollection.prototype, "clear", null);
 exports.ArrayCollection = ArrayCollection;
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -764,7 +1094,6 @@ var BaseCollectionView = function (_view_1$BaseView) {
         value: function render() {
             this.undelegateEvents();
             this._removeChildViews();
-            //if (!this.el || !this.collection) return this;
             _get(BaseCollectionView.prototype.__proto__ || Object.getPrototypeOf(BaseCollectionView.prototype), "render", this).call(this);
             if (!this.collection || !this.el) return this;
             this._renderCollection();
@@ -962,7 +1291,7 @@ var CollectionView = function (_BaseCollectionView) {
 exports.CollectionView = CollectionView;
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -973,7 +1302,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 Object.defineProperty(exports, "__esModule", { value: true });
 var model_1 = __webpack_require__(6);
 var utils_1 = __webpack_require__(4);
-function view(selector) {
+var deprecated_decorator_1 = __webpack_require__(7);
+/**
+ * Mount a view on the target and bind matched element
+ *
+ * @export
+ * @param {string} selector
+ * @returns
+ */
+function mount(selector) {
     return function (target, prop) {
         var View = Reflect.getOwnMetadata("design:type", target, prop);
         if (!View) throw new Error('design:type does not exists');
@@ -984,7 +1321,8 @@ function view(selector) {
         };
     };
 }
-exports.view = view;
+exports.mount = mount;
+exports.view = deprecated_decorator_1.default('Use mount instead', mount);
 function setter(target, prop) {
     if (!(target instanceof model_1.Model)) {
         throw new TypeError("Target must be a EventEmitter");
@@ -1000,7 +1338,15 @@ function getter(_, prop) {
         return this.get(prop);
     };
 }
-function observable(target, prop, descriptor) {
+/**
+ *
+ * @export
+ * @template
+ * @param {T} target
+ * @param {*} prop
+ * @param {TypedPropertyDescriptor<U>} [descriptor]
+ */
+function property(target, prop, descriptor) {
     descriptor = descriptor || Object.getOwnPropertyDescriptor(target, prop);
     if (!descriptor) {
         descriptor = {
@@ -1023,10 +1369,11 @@ function observable(target, prop, descriptor) {
         };
     }
 }
-exports.observable = observable;
+exports.property = property;
+exports.observable = deprecated_decorator_1.default('Use property', property);
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1041,16 +1388,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Mixins = __webpack_require__(3);
 exports.Mixins = Mixins;
 __export(__webpack_require__(1));
-__export(__webpack_require__(7));
 __export(__webpack_require__(8));
 __export(__webpack_require__(9));
+__export(__webpack_require__(10));
 __export(__webpack_require__(6));
 __export(__webpack_require__(2));
 __export(__webpack_require__(4));
 //import './test';
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1138,7 +1485,7 @@ function EventListener(Base) {
 exports.EventListener = EventListener;
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1226,7 +1573,7 @@ function ViewElement(Base) {
 exports.ViewElement = ViewElement;
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1324,7 +1671,7 @@ function ViewMountable(Base) {
 exports.ViewMountable = ViewMountable;
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1411,7 +1758,7 @@ function ViewObservable(Base) {
 exports.ViewObservable = ViewObservable;
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

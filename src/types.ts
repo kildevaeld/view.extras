@@ -33,6 +33,12 @@ export namespace Events {
 
 }
 
+/**
+ * An EventListener listens for events on a EventEmitter
+ * 
+ * @export
+ * @interface IEventListener
+ */
 export interface IEventListener {
     listenTo(obj: IEventEmitter, event: string, fn: EventHandler, ctx?: any): any;
     listenToOnce(obj: IEventEmitter, event: string, fn: EventHandler, ctx?: any): any;
@@ -63,76 +69,91 @@ export interface Event {
  * @interface IEventEmitter
  */
 export interface IEventEmitter {
-    /**
-     * 
-     * 
-     * @type {{ [key: string]: Events[] }}
-     * @memberOf IEventEmitter
-     */
+
     listeners?: Map<any, Event[]>
-    /**
-     * 
-     * 
-     * @type {string}
-     * @memberOf IEventEmitter
-     */
+
     listenId?: string
     /**
      * 
      * 
-     * @param {string} event
-     * @param {EventHandler} fn
-     * @param {*} [ctx]
-     * @returns {*}
+     * @param {'*'} event 
+     * @param {AllEventHandler} fn 
+     * @param {*} [ctx] 
+     * @returns {this} 
      * 
-     * @memberOf IEventEmitter
+     * @memberof IEventEmitter
      */
     on(event: '*', fn: AllEventHandler, ctx?: any): this
-    on(event: string, fn: EventHandler, ctx?: any): this
+    on(event: any, fn: EventHandler, ctx?: any): this
     /**
      * 
      * 
-     * @param {string} event
-     * @param {EventHandler} fn
-     * @param {*} [ctx]
-     * @returns {*}
+     * @param {*} event 
+     * @param {EventHandler} fn 
+     * @param {*} [ctx] 
+     * @returns {this} 
      * 
-     * @memberOf IEventEmitter
+     * @memberof IEventEmitter
      */
-    once(event: string, fn: EventHandler, ctx?: any): this
+    once(event: any, fn: EventHandler, ctx?: any): this
     /**
      * 
      * 
-     * @param {string} event
-     * @param {EventHandler} [fn]
-     * @param {*} [ctx]
-     * @returns {*}
+     * @param {*} [event] 
+     * @param {EventHandler} [fn] 
+     * @param {*} [ctx] 
+     * @returns {this} 
      * 
-     * @memberOf IEventEmitter
+     * @memberof IEventEmitter
      */
-    off(event?: string, fn?: EventHandler, ctx?: any): this
+    off(event?: any, fn?: EventHandler, ctx?: any): this
     /**
      * 
      * 
-     * @param {string} event
-     * @param {...any[]} args
-     * @returns {*}
+     * @param {*} event 
+     * @param {...any[]} args 
+     * @returns {this} 
      * 
-     * @memberOf IEventEmitter
+     * @memberof IEventEmitter
      */
-    trigger(event: string, ...args: any[]): this
+    trigger(event: any, ...args: any[]): this
 }
 
 export interface IViewElement {
+    /**
+     * Tagname of element. This should be set with @attributes decorator
+     * 
+     * @type {string}
+     * @memberof IViewElement
+     */
     tagName?: string;
+    /**
+     * This should be set with the @attributes decorator
+     * 
+     * @type {string}
+     * @memberof IViewElement
+     */
     className?: string;
     attributes?: { [key: string]: string };
 
-    remove(): any;
+    /**
+     * Remove element from dom
+     * 
+     * @returns {this} 
+     * 
+     * @memberof IViewElement
+     */
+    remove(): this;
 
 }
 
 export interface IViewTemplate {
+    /**
+     * Template 
+     * 
+     * 
+     * @memberof IViewTemplate
+     */
     template?: string | ((data: any) => string);
     getTemplateData(): any;
     renderTemplate(): void

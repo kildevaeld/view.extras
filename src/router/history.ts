@@ -1,5 +1,5 @@
 import { EventEmitter } from '../event-emitter';
-
+import { extend } from 'view';
 // Cached regex for stripping a leading hash/slash and trailing space.
 const routeStripper = /^[#\/]|\s+$/g;
 // Cached regex for stripping leading and trailing slashes.
@@ -19,6 +19,13 @@ export interface NavigateOptions {
     replace?: boolean;
 }
 
+export interface HistoryOptions {
+    pushState?: boolean;
+    root?: string;
+    hashChange?: boolean;
+    silent?: boolean;
+}
+
 export class HistoryApi extends EventEmitter {
     handlers: Handler[] = []
     location: Location
@@ -27,12 +34,12 @@ export class HistoryApi extends EventEmitter {
     private _wantsPushState: boolean
     private _wantsHashChange: boolean
     root: string
-    options: any
+
     fragment: string
     get started(): boolean {
         return this._started
     }
-    constructor(options?: any) {
+    constructor(private options?: HistoryOptions) {
         super()
         if (typeof window !== 'undefined') {
             this.location = window.location;
@@ -71,13 +78,13 @@ export class HistoryApi extends EventEmitter {
 
     // Start the hash change handling, returning `true` if the current URL matches
     // an existing route, and `false` otherwise.
-    start(options: any = {}) {
+    start(options: HistoryOptions = {}) {
         if (this.started) throw new Error("Router.history has already been started");
         this._started = true;
 
         // Figure out the initial configuration.
         // Is pushState desired or should we use hashchange only?
-        this.options = utils.extend({ root: '/' }, this.options, options);
+        this.options = extend({ root: '/' }, this.options, options);
         this.root = this.options.root;
         this._wantsHashChange = this.options.hashChange !== false;
         this._wantsPushState = !!this.options.pushState;
@@ -115,8 +122,7 @@ export class HistoryApi extends EventEmitter {
         if (!this.options.silent) return this.loadUrl();
     }
 
-    // Disable Backbone.history, perhaps temporarily. Not useful in a real app,
-    // but possibly useful for unit testing Routers.
+
     stop() {
         window.removeEventListener('popstate', this.checkUrl);
         window.removeEventListener('hashchange', this.checkUrl);

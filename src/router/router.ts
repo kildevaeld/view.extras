@@ -27,9 +27,9 @@ export interface IRouterOptions {
 
 
 export class BaseRouter extends EventEmitter {
-    options: IRouterOptions
+
     public history: HistoryApi
-    constructor(options: IRouterOptions = {}) {
+    constructor(private options: IRouterOptions = {}) {
         super()
         this.history = new HistoryApi(options);
         this.options = options
@@ -74,6 +74,11 @@ export class BaseRouter extends EventEmitter {
         this.history.navigate(fragment, options);
         return this;
     }
+
+    removeAllRoutes() {
+        this.history.handlers = [];
+    }
+
 
     start() {
         this.history.start();

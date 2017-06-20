@@ -3,15 +3,15 @@ import * as Mixins from './mixins';
 import { CollectionView } from './collection-view';
 import { ArrayCollection } from './array-collection';
 import { Model } from './model';
-import { observable } from './decorators';
+import { property } from './decorators';
 import { html } from './html';
 
 class Todo extends Model {
-    @observable
+    @property
     id: string;
-    @observable
+    @property
     name: string;
-    @observable
+    @property
     done: boolean
     constructor(o: any) {
         super();
@@ -42,12 +42,13 @@ class TodoView extends Mixins.ViewTemplate(Mixins.ViewElement(View)) {
         this.ui.p!.style.display = 'none';
         this.ui.i!.style.display = 'block'
         this.ui.i!.focus();
+        this.data.tri
 
     }
 
     @event.click('.done')
     onDone(e: DelegateEvent) {
-        let el = html(e.delegateTarget! as HTMLElement);
+        let el = html(e.delegateTarget);
         let d = el.hasClass('is-done');
         el.toggleClass('is-done')
         this.data.done = !d;
@@ -87,6 +88,7 @@ class TodoListView extends (class extends CollectionView<Todo, TodoView> { }) {
 
     @event.click('button.add')
     addTodo() {
+
         this.collection.push(new Todo({
             name: "New Todo",
             id: uniqueId(),

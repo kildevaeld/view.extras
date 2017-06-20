@@ -7,7 +7,14 @@ export interface NavigateOptions {
     trigger?: boolean;
     replace?: boolean;
 }
+export interface HistoryOptions {
+    pushState?: boolean;
+    root?: string;
+    hashChange?: boolean;
+    silent?: boolean;
+}
 export declare class HistoryApi extends EventEmitter {
+    private options;
     handlers: Handler[];
     location: Location;
     history: History;
@@ -15,14 +22,13 @@ export declare class HistoryApi extends EventEmitter {
     private _wantsPushState;
     private _wantsHashChange;
     root: string;
-    options: any;
     fragment: string;
     readonly started: boolean;
-    constructor(options?: any);
+    constructor(options?: HistoryOptions);
     atRoot(): boolean;
     getHash(window?: Window): string;
     getFragment(fragment?: string, _?: boolean): string;
-    start(options?: any): boolean;
+    start(options?: HistoryOptions): boolean;
     stop(): void;
     route(route: any, callback: any): void;
     checkUrl(): boolean;

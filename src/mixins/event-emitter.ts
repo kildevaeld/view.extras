@@ -19,8 +19,14 @@ function removeFromListener(listeners: Event[], fn?: EventHandler, ctx?: any) {
 export function isEventEmitter(a: any): a is IEventEmitter {
     return a && (a instanceof EventEmitter || (isFunction(a.on) && isFunction(a.once) && isFunction(a.off) && isFunction(a.trigger)));
 }
-
-
+/**
+ * Makes target, Base, an EventEmitter
+ * 
+ * @export
+ * @param {T} Base 
+ * @template
+ * @returns {(Constructor<IEventEmitter> & T)} 
+ */
 export function EventEmitter<T extends Constructor<{}>>(Base: T): Constructor<IEventEmitter> & T {
     return class extends Base {
         private _listeners: Map<any, Event[]>
