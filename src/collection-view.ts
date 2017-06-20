@@ -16,8 +16,8 @@ export class BaseCollectionView<T extends Element, U extends ICollection<M>, M, 
     private _childViews: V[];
     readonly options: BaseCollectionViewOptions<T, V>;
 
-    childView?: Constructor<V>
-    childViewContainer?: string;
+    protected childView?: Constructor<V>
+    protected childViewContainer?: string;
 
     set collection(collection: U | undefined) {
         this.setCollection(collection);

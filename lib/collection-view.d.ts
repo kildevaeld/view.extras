@@ -9,8 +9,8 @@ export declare class BaseCollectionView<T extends Element, U extends ICollection
     private _collection?;
     private _childViews;
     readonly options: BaseCollectionViewOptions<T, V>;
-    childView?: Constructor<V>;
-    childViewContainer?: string;
+    protected childView?: Constructor<V>;
+    protected childViewContainer?: string;
     collection: U | undefined;
     readonly childViews: V[];
     constructor(options?: BaseCollectionViewOptions<T, V>);
