@@ -14,7 +14,7 @@ export { Mixins }
 import {Invoker} from './types'
 import {IView, Constructor, isString} from 'view';
 
-export function mount<T extends IView>(View:Constructor<T>, element: Element | string): T  {
+export function create<T extends IView>(View:Constructor<T>, element: Element | string): T  {
 	if (isString(element)) {
 		element = document.querySelector(element);
 	}

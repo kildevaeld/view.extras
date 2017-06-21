@@ -1406,7 +1406,7 @@ __export(__webpack_require__(2));
 __export(__webpack_require__(4));
 var types_1 = __webpack_require__(1);
 var view_1 = __webpack_require__(0);
-function mount(View, element) {
+function create(View, element) {
     if (view_1.isString(element)) {
         element = document.querySelector(element);
     }
@@ -1414,7 +1414,7 @@ function mount(View, element) {
     view.el = element;
     return view;
 }
-exports.mount = mount;
+exports.create = create;
 
 /***/ }),
 /* 12 */
