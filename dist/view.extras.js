@@ -1404,7 +1404,17 @@ __export(__webpack_require__(10));
 __export(__webpack_require__(6));
 __export(__webpack_require__(2));
 __export(__webpack_require__(4));
-//import './test';
+var types_1 = __webpack_require__(1);
+var view_1 = __webpack_require__(0);
+function mount(View, element) {
+    if (view_1.isString(element)) {
+        element = document.querySelector(element);
+    }
+    var view = types_1.Invoker.get(View);
+    view.el = element;
+    return view;
+}
+exports.mount = mount;
 
 /***/ }),
 /* 12 */
