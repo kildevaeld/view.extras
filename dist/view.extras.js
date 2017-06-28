@@ -630,6 +630,13 @@ var Model = function (_event_emitter_1$Even) {
             return void 0;
         }
     }, {
+        key: "clear",
+        value: function clear() {
+            this[types_1.MetaKeys.Attributes] = new Map();
+            this.trigger('clear');
+            return this;
+        }
+    }, {
         key: "toJSON",
         value: function toJSON() {
             var _ = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;

@@ -44,6 +44,12 @@ export class Model extends EventEmitter {
         return void 0;
     }
 
+    clear() {
+        this[MetaKeys.Attributes] = new Map<PropertyKey, any>();
+        this.trigger('clear');
+        return this;
+    }
+
     toJSON(_ = false) {
         let out = {};
         for (let entry of this[MetaKeys.Attributes].entries()) {
