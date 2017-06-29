@@ -3,6 +3,10 @@ import { equal } from './utils';
 import { MetaKeys } from './types';
 import { EventEmitter } from './event-emitter';
 
+export interface ModelSetOptions {
+    silent?: boolean;
+}
+
 export class Model extends EventEmitter {
 
     [key: string]: any;
@@ -12,13 +16,16 @@ export class Model extends EventEmitter {
         this[MetaKeys.Attributes] = new Map<PropertyKey, any>();
     }
 
-    set<U>(key: PropertyKey, value: U) {
+    set<U>(key: PropertyKey, value: U, options?: ModelSetOptions) {
         let old = this.get(key)
         if (equal(old, value)) {
             return this;
         }
 
         this[MetaKeys.Attributes].set(key, value);
+
+        if (options && options.silent) return;
+
         this.trigger(`change:${key}`, old, value)
         this.trigger('change', { [key]: value })
 
@@ -32,6 +39,7 @@ export class Model extends EventEmitter {
         return this[MetaKeys.Attributes].has(key);
     }
 
+    /*
     unset<U>(key: PropertyKey): U | undefined {
         if (this.has(key)) {
             let val = this.get<U>(key);
@@ -42,7 +50,7 @@ export class Model extends EventEmitter {
 
         }
         return void 0;
-    }
+    }*/
 
     clear() {
         this[MetaKeys.Attributes] = new Map<PropertyKey, any>();

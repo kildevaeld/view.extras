@@ -598,12 +598,13 @@ var Model = function (_event_emitter_1$Even) {
 
     _createClass(Model, [{
         key: "set",
-        value: function set(key, value) {
+        value: function set(key, value, options) {
             var old = this.get(key);
             if (utils_1.equal(old, value)) {
                 return this;
             }
             this[types_1.MetaKeys.Attributes].set(key, value);
+            if (options && options.silent) return;
             this.trigger("change:" + key, old, value);
             this.trigger('change', _defineProperty({}, key, value));
         }
@@ -617,18 +618,18 @@ var Model = function (_event_emitter_1$Even) {
         value: function has(key) {
             return this[types_1.MetaKeys.Attributes].has(key);
         }
-    }, {
-        key: "unset",
-        value: function unset(key) {
+        /*
+        unset<U>(key: PropertyKey): U | undefined {
             if (this.has(key)) {
-                var val = this.get(key);
-                this[types_1.MetaKeys.Attributes].delete(key);
-                this.trigger("remove:" + key, val);
+                let val = this.get<U>(key);
+                this[MetaKeys.Attributes].delete(key);
+                this.trigger(`remove:${key}`, val);
                 this.trigger('remove', key, val);
                 return val;
-            }
+             }
             return void 0;
-        }
+        }*/
+
     }, {
         key: "clear",
         value: function clear() {

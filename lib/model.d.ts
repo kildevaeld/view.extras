@@ -1,11 +1,13 @@
 import { EventEmitter } from './event-emitter';
+export interface ModelSetOptions {
+    silent?: boolean;
+}
 export declare class Model extends EventEmitter {
     [key: string]: any;
     constructor();
-    set<U>(key: PropertyKey, value: U): this;
+    set<U>(key: PropertyKey, value: U, options?: ModelSetOptions): this;
     get<U>(key: PropertyKey): U;
     has(key: PropertyKey): boolean;
-    unset<U>(key: PropertyKey): U | undefined;
     clear(): this;
     toJSON(_?: boolean): {};
 }
