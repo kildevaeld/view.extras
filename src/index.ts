@@ -8,13 +8,14 @@ export * from './decorators';
 export * from './model';
 export * from './event-emitter';
 export * from './utils';
+export * from './controller';
 //export * from './html';
 export { Mixins }
 
-import {Invoker} from './types'
-import {IView, Constructor, isString} from 'view';
+import { Invoker } from './types'
+import { IView, Constructor, isString } from 'view';
 
-export function create<T extends IView>(View:Constructor<T>, element: Element | string): T  {
+export function create<T extends IView>(View: Constructor<T>, element: Element | string): T {
 	if (isString(element)) {
 		element = document.querySelector(element);
 	}

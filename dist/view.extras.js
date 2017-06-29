@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 11);
+/******/ 	return __webpack_require__(__webpack_require__.s = 12);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -181,11 +181,11 @@ function __export(m) {
     }
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(14));
 __export(__webpack_require__(15));
-__export(__webpack_require__(12));
 __export(__webpack_require__(16));
 __export(__webpack_require__(13));
+__export(__webpack_require__(17));
+__export(__webpack_require__(14));
 __export(__webpack_require__(5));
 
 /***/ }),
@@ -1315,6 +1315,45 @@ exports.CollectionView = CollectionView;
 "use strict";
 
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var view_1 = __webpack_require__(0);
+
+var Controller = function (_view_1$AbstractView) {
+    _inherits(Controller, _view_1$AbstractView);
+
+    function Controller() {
+        _classCallCheck(this, Controller);
+
+        return _possibleConstructorReturn(this, (Controller.__proto__ || Object.getPrototypeOf(Controller)).apply(this, arguments));
+    }
+
+    _createClass(Controller, [{
+        key: "setElement",
+        value: function setElement(el, _) {
+            this._el = el;
+        }
+    }]);
+
+    return Controller;
+}(view_1.AbstractView);
+
+exports.Controller = Controller;
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -1391,7 +1430,7 @@ exports.property = property;
 exports.observable = deprecated_decorator_1.default('Use property', property);
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1408,10 +1447,11 @@ exports.Mixins = Mixins;
 __export(__webpack_require__(1));
 __export(__webpack_require__(8));
 __export(__webpack_require__(9));
-__export(__webpack_require__(10));
+__export(__webpack_require__(11));
 __export(__webpack_require__(6));
 __export(__webpack_require__(2));
 __export(__webpack_require__(4));
+__export(__webpack_require__(10));
 var types_1 = __webpack_require__(1);
 var view_1 = __webpack_require__(0);
 function create(View, element) {
@@ -1425,7 +1465,7 @@ function create(View, element) {
 exports.create = create;
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1513,7 +1553,7 @@ function EventListener(Base) {
 exports.EventListener = EventListener;
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1601,7 +1641,7 @@ function ViewElement(Base) {
 exports.ViewElement = ViewElement;
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1699,7 +1739,7 @@ function ViewMountable(Base) {
 exports.ViewMountable = ViewMountable;
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1786,7 +1826,7 @@ function ViewObservable(Base) {
 exports.ViewObservable = ViewObservable;
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
