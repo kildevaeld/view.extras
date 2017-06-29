@@ -1,6 +1,6 @@
 {
   "name": "view.extras",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -21,13 +21,15 @@
     "gulp-util": "^3.0.8",
     "orange.dom": "github:kildevaeld/orange.dom",
     "reflect-metadata": "^0.1.10",
-    "slick-model": "github:slickjs/slick-model",
     "ts-loader": "^2.1.0",
     "typescript": "^2.3.4",
     "view": "github:kildevaeld/view",
     "webpack": "^2.6.1"
   },
-  "author": "",
-  "license": "ISC",
-  "types": "./lib/index.d.ts"
+  "author": "Rasmus Kildevæld <rasmuskildevaeld@gmail.com>",
+  "license": "MIT",
+  "types": "./lib/index.d.ts",
+  "dependencies": {
+    "deprecated-decorator": "^0.1.6"
+  }
 }
