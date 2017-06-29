@@ -1,4 +1,4 @@
-import { AbstractView } from 'view/lib/abstract-view'
+import { AbstractView } from 'view'
 
 export class Controller extends AbstractView<HTMLElement> {
 

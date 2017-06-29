@@ -1,6 +1,6 @@
 {
   "name": "view.extras",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -24,7 +24,7 @@
     "slick-model": "github:slickjs/slick-model",
     "ts-loader": "^2.1.0",
     "typescript": "^2.3.4",
-    "view": "github:kildevaeld/view#strip",
+    "view": "github:kildevaeld/view",
     "webpack": "^2.6.1"
   },
   "author": "",
