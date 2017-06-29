@@ -358,7 +358,7 @@ function setValue(el, value) {
         } else {
             el.checked = value;
         }
-    } else if (String(value) !== value(el)) {
+    } else if (String(value) !== getValue(el)) {
         if (isInput || isSelect) {
             el.value = value;
         } else {

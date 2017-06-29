@@ -165,7 +165,7 @@ export function setValue(el: HTMLElement, value?: any) {
         } else {
             (el as HTMLInputElement).checked = value;
         }
-    } else if (String(value) !== value(el)) {
+    } else if (String(value) !== getValue(el)) {
         if (isInput || isSelect) {
             (el as HTMLInputElement).value = value;
         } else {
