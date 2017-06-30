@@ -1,9 +1,6 @@
 import { Constructor, callFunc, isFunction } from 'view';
 import { IEventEmitter, EventHandler, Event } from '../types';
 
-
-
-
 function removeFromListener(listeners: Event[], fn?: EventHandler, ctx?: any) {
     for (let i = 0; i < listeners.length; i++) {
         let e = listeners[i];

@@ -39,19 +39,6 @@ export class Model extends EventEmitter {
         return this[MetaKeys.Attributes].has(key);
     }
 
-    /*
-    unset<U>(key: PropertyKey): U | undefined {
-        if (this.has(key)) {
-            let val = this.get<U>(key);
-            this[MetaKeys.Attributes].delete(key);
-            this.trigger(`remove:${key}`, val);
-            this.trigger('remove', key, val);
-            return val;
-
-        }
-        return void 0;
-    }*/
-
     clear() {
         this[MetaKeys.Attributes] = new Map<PropertyKey, any>();
         this.trigger('clear');

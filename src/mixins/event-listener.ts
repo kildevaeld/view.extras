@@ -3,7 +3,6 @@ import { IEventEmitter, Constructor, EventHandler, uniqueId } from 'view';
 import { IEventListener } from '../types';
 import { isEventEmitter } from './event-emitter';
 
-
 export function EventListener<T extends Constructor<{}>>(Base: T): Constructor<IEventListener> & T {
     return class extends Base {
         _listeningTo: { [key: string]: any }

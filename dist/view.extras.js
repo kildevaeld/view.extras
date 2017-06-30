@@ -618,18 +618,6 @@ var Model = function (_event_emitter_1$Even) {
         value: function has(key) {
             return this[types_1.MetaKeys.Attributes].has(key);
         }
-        /*
-        unset<U>(key: PropertyKey): U | undefined {
-            if (this.has(key)) {
-                let val = this.get<U>(key);
-                this[MetaKeys.Attributes].delete(key);
-                this.trigger(`remove:${key}`, val);
-                this.trigger('remove', key, val);
-                return val;
-             }
-            return void 0;
-        }*/
-
     }, {
         key: "clear",
         value: function clear() {
