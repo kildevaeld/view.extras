@@ -1,6 +1,6 @@
 {
   "name": "view.extras",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -21,7 +21,7 @@
     "gulp-util": "^3.0.8",
     "orange.dom": "github:kildevaeld/orange.dom",
     "reflect-metadata": "^0.1.10",
-    "ts-loader": "^2.1.0",
+    "ts-loader": "^2.2.2",
     "typescript": "^2.3.4",
     "view": "github:kildevaeld/view",
     "webpack": "^2.6.1"

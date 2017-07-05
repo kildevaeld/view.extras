@@ -7,10 +7,23 @@
        <script src="../node_modules/reflect-metadata/Reflect.js"></script>
        <script src="../node_modules/babel-polyfill/browser.js"></script>
        <script src="../node_modules/view/dist/view.js"></script>
+       <!--script src="../dist/view.extras.js"></script-->
        
     </head>
     <body>
-    
+        <div class="view1">
+            <button>Hello, World</button>
+        </div>
     </body>
-    <script src="../dist/view.extras.js"></script>
+    <script>
+        let v = new view.View();
+        v.events = {
+            'click button': () => alert('hello, World')
+        }
+
+        v.el = document.querySelector('.view1');
+
+        v.render();
+
+    </script>
 </html>
