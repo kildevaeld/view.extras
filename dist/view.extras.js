@@ -203,6 +203,7 @@ function equal(a, b) {
 }
 exports.equal = equal;
 var _has = Object.prototype.hasOwnProperty;
+var toString = Object.prototype.toString;
 function eq(a, b, aStack, bStack) {
     // Identical objects are equal. `0 === -0`, but they aren't identical.
     // See the [Harmony `egal` proposal](http://wiki.ecmascript.org/doku.php?id=harmony:egal).

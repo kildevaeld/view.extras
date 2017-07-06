@@ -5,6 +5,8 @@ export function equal(a: any, b: any): boolean {
 }
 
 const _has = Object.prototype.hasOwnProperty
+const toString = Object.prototype.toString;
+
 function eq(a: any, b: any, aStack: any[], bStack: any[]): boolean {
     // Identical objects are equal. `0 === -0`, but they aren't identical.
     // See the [Harmony `egal` proposal](http://wiki.ecmascript.org/doku.php?id=harmony:egal).
