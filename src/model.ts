@@ -47,9 +47,14 @@ export class Model extends EventEmitter {
 
     toJSON(_ = false) {
         let out = {};
+
+        this[MetaKeys.Attributes].forEach((value, key) => {
+            out[key] = value;
+        });
+        /*
         for (let entry of this[MetaKeys.Attributes].entries()) {
             out[entry[0]] = entry[1];
-        }
+        }*/
 
         return out;
     }

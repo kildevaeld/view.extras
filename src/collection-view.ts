@@ -70,10 +70,17 @@ export class BaseCollectionView<T extends Element, U extends ICollection<M>, M, 
         if (!this._childViews) {
             this._childViews = [];
         }
-        for (let v of this._childViews) {
+        /*for (let v of this._childViews) {
             v.destroy()
             v.el!.remove();
+        }*/
+        for (let i = 0, ii = this._childViews.length; i < ii; i++) {
+            const v = this._childViews[i];
+            v.destroy();
+            v.el!.remove();
         }
+
+
 
         this._childViews = [];
     }

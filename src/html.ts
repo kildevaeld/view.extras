@@ -53,13 +53,28 @@ export class Html implements Iterable<Element> {
     }
 
     static removeAllEventListeners() {
-        for (let el of domEvents.keys()) {
+
+        domEvents.forEach((entries, el) => {
+
+            for (let i = 0, ii = entries.length; i < ii; i++) {
+                let entry = entries[i];
+                el.removeEventListener(entry.event, entry.callback);
+            }
+            domEvents.delete(el);
+            /*
+            for (let entry of entries) {
+                el.removeEventListener(entry.event, entry.callback);
+            }
+            domEvents.delete(el);*/
+        });
+
+        /*for (let el of domEvents.keys()) {
             let entries = domEvents.get(el);
             for (let entry of entries) {
                 el.removeEventListener(entry.event, entry.callback);
             }
             domEvents.delete(el);
-        }
+        }*/
     }
 
     static _domEvents() {

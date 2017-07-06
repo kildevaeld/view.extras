@@ -114,9 +114,12 @@ export class ArrayCollection<T> extends EventEmitter implements ICollection<T> {
     }
 
     destroy() {
-        for (let i of this.a) {
-            if (isDestroyable(i)) i.destroy();
+        for (let i = 0, ii = this.a.length; i < ii; i++) {
+            if (isDestroyable(this.a[i])) (<any>this.a[i]).destroy();
         }
+        /*for (let i of this.a) {
+            if (isDestroyable(i)) i.destroy();
+        }*/
         this.a = [];
     }
 

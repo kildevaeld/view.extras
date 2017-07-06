@@ -613,31 +613,13 @@ var Model = function (_event_emitter_1$Even) {
             var _ = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
             var out = {};
-            var _iteratorNormalCompletion = true;
-            var _didIteratorError = false;
-            var _iteratorError = undefined;
-
-            try {
-                for (var _iterator = this[types_1.MetaKeys.Attributes].entries()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                    var entry = _step.value;
-
-                    out[entry[0]] = entry[1];
-                }
-            } catch (err) {
-                _didIteratorError = true;
-                _iteratorError = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion && _iterator.return) {
-                        _iterator.return();
-                    }
-                } finally {
-                    if (_didIteratorError) {
-                        throw _iteratorError;
-                    }
-                }
-            }
-
+            this[types_1.MetaKeys.Attributes].forEach(function (value, key) {
+                out[key] = value;
+            });
+            /*
+            for (let entry of this[MetaKeys.Attributes].entries()) {
+                out[entry[0]] = entry[1];
+            }*/
             return out;
         }
     }]);
@@ -983,31 +965,12 @@ var ArrayCollection = function (_event_emitter_1$Even) {
     }, {
         key: "destroy",
         value: function destroy() {
-            var _iteratorNormalCompletion = true;
-            var _didIteratorError = false;
-            var _iteratorError = undefined;
-
-            try {
-                for (var _iterator = this.a[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                    var i = _step.value;
-
-                    if (types_1.isDestroyable(i)) i.destroy();
-                }
-            } catch (err) {
-                _didIteratorError = true;
-                _iteratorError = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion && _iterator.return) {
-                        _iterator.return();
-                    }
-                } finally {
-                    if (_didIteratorError) {
-                        throw _iteratorError;
-                    }
-                }
+            for (var i = 0, ii = this.a.length; i < ii; i++) {
+                if (types_1.isDestroyable(this.a[i])) this.a[i].destroy();
             }
-
+            /*for (let i of this.a) {
+                if (isDestroyable(i)) i.destroy();
+            }*/
             this.a = [];
         }
         /**
@@ -1102,32 +1065,15 @@ var BaseCollectionView = function (_view_1$BaseView) {
             if (!this._childViews) {
                 this._childViews = [];
             }
-            var _iteratorNormalCompletion = true;
-            var _didIteratorError = false;
-            var _iteratorError = undefined;
-
-            try {
-                for (var _iterator = this._childViews[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                    var v = _step.value;
-
-                    v.destroy();
-                    v.el.remove();
-                }
-            } catch (err) {
-                _didIteratorError = true;
-                _iteratorError = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion && _iterator.return) {
-                        _iterator.return();
-                    }
-                } finally {
-                    if (_didIteratorError) {
-                        throw _iteratorError;
-                    }
-                }
+            /*for (let v of this._childViews) {
+                v.destroy()
+                v.el!.remove();
+            }*/
+            for (var i = 0, ii = this._childViews.length; i < ii; i++) {
+                var v = this._childViews[i];
+                v.destroy();
+                v.el.remove();
             }
-
             this._childViews = [];
         }
     }, {
