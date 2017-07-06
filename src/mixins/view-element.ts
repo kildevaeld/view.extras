@@ -18,8 +18,9 @@ export function ViewElement<T extends Constructor<BaseView<E>>, E extends Elemen
                 el = document.createElement(tagName);
 
             if (className) {
-                let classes = className.split(' ').map(m => m.trim());
-                el.classList.add(...classes);
+                // IE < 11 does not support multiple arguments in add/remove
+                className.split(' ').map(m => m.trim())
+                    .forEach(cl => el.classList.add(cl))
             }
             if (attr) {
                 for (let key in attr) {
