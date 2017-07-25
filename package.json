@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "peerDependencies": {
-    "view": "github:kildevaeld/view"
+    "view": "github:kildevaeld/view#semver:^0.2.5"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
@@ -17,14 +17,14 @@
     "babel-preset-es2016": "^6.24.1",
     "gulp": "^3.9.1",
     "gulp-bump": "^2.7.0",
-    "gulp-typescript": "^3.1.7",
+    "gulp-typescript": "^3.2.1",
     "gulp-util": "^3.0.8",
     "orange.dom": "github:kildevaeld/orange.dom",
     "reflect-metadata": "^0.1.10",
-    "ts-loader": "^2.2.2",
-    "typescript": "^2.4.1",
-    "view": "github:kildevaeld/view",
-    "webpack": "^2.6.1"
+    "ts-loader": "^2.3.1",
+    "typescript": "^2.4.2",
+    "view": "github:kildevaeld/view#semver:^0.2.5",
+    "webpack": "^2.7.0"
   },
   "author": "Rasmus Kildevæld <rasmuskildevaeld@gmail.com>",
   "license": "MIT",

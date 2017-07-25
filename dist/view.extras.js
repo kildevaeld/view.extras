@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define(["view"], factory);
 	else if(typeof exports === 'object')
-		exports["view"] = factory(require("view"));
+		exports["extras"] = factory(require("view"));
 	else
-		root["view"] = factory(root["view"]);
+		root["view"] = root["view"] || {}, root["view"]["extras"] = factory(root["view"]);
 })(this, function(__WEBPACK_EXTERNAL_MODULE_0__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 12);
+/******/ 	return __webpack_require__(__webpack_require__.s = 11);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -181,11 +181,11 @@ function __export(m) {
     }
 }
 Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__(14));
 __export(__webpack_require__(15));
+__export(__webpack_require__(12));
 __export(__webpack_require__(16));
 __export(__webpack_require__(13));
-__export(__webpack_require__(17));
-__export(__webpack_require__(14));
 __export(__webpack_require__(5));
 
 /***/ }),
@@ -635,180 +635,9 @@ exports.Model = Model;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/*
-    Deprecated Decorator v0.1
-    https://github.com/vilic/deprecated-decorator
-*/
-
-/** @internal */
-
-exports.options = {
-    getWarner: undefined
-};
-function createWarner(type, name, alternative, version, url) {
-    var warnedPositions = {};
-    return function () {
-        var stack = new Error().stack || '';
-        var at = (stack.match(/(?:\s+at\s.+){2}\s+at\s(.+)/) || [undefined, ''])[1];
-        if (/\)$/.test(at)) {
-            at = at.match(/[^(]+(?=\)$)/)[0];
-        } else {
-            at = at.trim();
-        }
-        if (at in warnedPositions) {
-            return;
-        }
-        warnedPositions[at] = true;
-        var message;
-        switch (type) {
-            case 'class':
-                message = 'Class';
-                break;
-            case 'property':
-                message = 'Property';
-                break;
-            case 'method':
-                message = 'Method';
-                break;
-            case 'function':
-                message = 'Function';
-                break;
-        }
-        message += " `" + name + "` has been deprecated";
-        if (version) {
-            message += " since version " + version;
-        }
-        if (alternative) {
-            message += ", use `" + alternative + "` instead";
-        }
-        message += '.';
-        if (at) {
-            message += "\n    at " + at;
-        }
-        if (url) {
-            message += "\nCheck out " + url + " for more information.";
-        }
-        console.warn(message);
-    };
-}
-function decorateProperty(type, name, descriptor, alternative, version, url) {
-    var warner = (exports.options.getWarner || createWarner)(type, name, alternative, version, url);
-    descriptor = descriptor || {
-        writable: true,
-        enumerable: false,
-        configurable: true
-    };
-    var deprecatedDescriptor = {
-        enumerable: descriptor.enumerable,
-        configurable: descriptor.configurable
-    };
-    if (descriptor.get || descriptor.set) {
-        if (descriptor.get) {
-            deprecatedDescriptor.get = function () {
-                warner();
-                return descriptor.get.call(this);
-            };
-        }
-        if (descriptor.set) {
-            deprecatedDescriptor.set = function (value) {
-                warner();
-                return descriptor.set.call(this, value);
-            };
-        }
-    } else {
-        var propertyValue_1 = descriptor.value;
-        deprecatedDescriptor.get = function () {
-            warner();
-            return propertyValue_1;
-        };
-        if (descriptor.writable) {
-            deprecatedDescriptor.set = function (value) {
-                warner();
-                propertyValue_1 = value;
-            };
-        }
-    }
-    return deprecatedDescriptor;
-}
-function decorateFunction(type, target, alternative, version, url) {
-    var name = target.name;
-    var warner = (exports.options.getWarner || createWarner)(type, name, alternative, version, url);
-    var fn = function fn() {
-        warner();
-        return target.apply(this, arguments);
-    };
-    for (var _i = 0, _a = Object.getOwnPropertyNames(target); _i < _a.length; _i++) {
-        var propertyName = _a[_i];
-        var descriptor = Object.getOwnPropertyDescriptor(target, propertyName);
-        if (descriptor.writable) {
-            fn[propertyName] = target[propertyName];
-        } else if (descriptor.configurable) {
-            Object.defineProperty(fn, propertyName, descriptor);
-        }
-    }
-    return fn;
-}
-function deprecated() {
-    var args = [];
-    for (var _i = 0; _i < arguments.length; _i++) {
-        args[_i - 0] = arguments[_i];
-    }
-    var fn = args[args.length - 1];
-    if (typeof fn === 'function') {
-        fn = args.pop();
-    } else {
-        fn = undefined;
-    }
-    var options = args[0];
-    var alternative;
-    var version;
-    var url;
-    if (typeof options === 'string') {
-        alternative = options;
-        version = args[1];
-        url = args[2];
-    } else if (options) {
-        alternative = options.alternative, version = options.version, url = options.url, options;
-    }
-    if (fn) {
-        return decorateFunction('function', fn, alternative, version, url);
-    }
-    return function (target, name, descriptor) {
-        if (typeof name === 'string') {
-            var type = descriptor && typeof descriptor.value === 'function' ? 'method' : 'property';
-            return decorateProperty(type, name, descriptor, alternative, version, url);
-        } else if (typeof target === 'function') {
-            var constructor = decorateFunction('class', target, alternative, version, url);
-            var className = target.name;
-            for (var _i = 0, _a = Object.getOwnPropertyNames(constructor); _i < _a.length; _i++) {
-                var propertyName = _a[_i];
-                var descriptor_1 = Object.getOwnPropertyDescriptor(constructor, propertyName);
-                descriptor_1 = decorateProperty('class', className, descriptor_1, alternative, version, url);
-                if (descriptor_1.writable) {
-                    constructor[propertyName] = target[propertyName];
-                } else if (descriptor_1.configurable) {
-                    Object.defineProperty(constructor, propertyName, descriptor_1);
-                }
-            }
-            return constructor;
-        }
-    };
-}
-exports.deprecated = deprecated;
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = deprecated;
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
 
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -818,21 +647,10 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) {
-        if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    }return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = this && this.__metadata || function (k, v) {
-    if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var types_1 = __webpack_require__(1);
 var event_emitter_1 = __webpack_require__(2);
-var deprecated_decorator_1 = __webpack_require__(7);
+//import deprecated from 'deprecated-decorator';
 
 var ArrayCollection = function (_event_emitter_1$Even) {
     _inherits(ArrayCollection, _event_emitter_1$Even);
@@ -938,12 +756,11 @@ var ArrayCollection = function (_event_emitter_1$Even) {
             this.a.sort(fn);
             this.trigger(types_1.ModelEvents.Sort);
         }
-    }, {
-        key: "clear",
-        value: function clear() {
+        /*@deprecated("reset")
+        clear() {
             this.a = [];
-            this.trigger(types_1.ModelEvents.Reset);
-        }
+            this.trigger(ModelEvents.Reset);
+        }*/
         /**
          * Reset the array
          *
@@ -969,9 +786,6 @@ var ArrayCollection = function (_event_emitter_1$Even) {
             for (var i = 0, ii = this.a.length; i < ii; i++) {
                 if (types_1.isDestroyable(this.a[i])) this.a[i].destroy();
             }
-            /*for (let i of this.a) {
-                if (isDestroyable(i)) i.destroy();
-            }*/
             this.a = [];
         }
         /**
@@ -997,11 +811,10 @@ var ArrayCollection = function (_event_emitter_1$Even) {
     return ArrayCollection;
 }(event_emitter_1.EventEmitter);
 
-__decorate([deprecated_decorator_1.default("reset"), __metadata("design:type", Function), __metadata("design:paramtypes", []), __metadata("design:returntype", void 0)], ArrayCollection.prototype, "clear", null);
 exports.ArrayCollection = ArrayCollection;
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1226,7 +1039,7 @@ var CollectionView = function (_BaseCollectionView) {
 exports.CollectionView = CollectionView;
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1265,7 +1078,7 @@ var Controller = function (_view_1$AbstractView) {
 exports.Controller = Controller;
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1276,7 +1089,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 Object.defineProperty(exports, "__esModule", { value: true });
 var model_1 = __webpack_require__(6);
 var utils_1 = __webpack_require__(4);
-var deprecated_decorator_1 = __webpack_require__(7);
+//import deprecated from 'deprecated-decorator';
 /**
  * Mount a view on the target and bind matched element
  *
@@ -1296,7 +1109,7 @@ function mount(selector) {
     };
 }
 exports.mount = mount;
-exports.view = deprecated_decorator_1.default('Use mount instead', mount);
+//export const view = deprecated('Use mount instead', mount);
 function setter(target, prop) {
     if (!(target instanceof model_1.Model)) {
         throw new TypeError("Target must be a EventEmitter");
@@ -1344,10 +1157,10 @@ function property(target, prop, descriptor) {
     }
 }
 exports.property = property;
-exports.observable = deprecated_decorator_1.default('Use property', property);
+//export const observable = deprecated('Use property', property);
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1362,13 +1175,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Mixins = __webpack_require__(3);
 exports.Mixins = Mixins;
 __export(__webpack_require__(1));
+__export(__webpack_require__(7));
 __export(__webpack_require__(8));
-__export(__webpack_require__(9));
-__export(__webpack_require__(11));
+__export(__webpack_require__(10));
 __export(__webpack_require__(6));
 __export(__webpack_require__(2));
 __export(__webpack_require__(4));
-__export(__webpack_require__(10));
+__export(__webpack_require__(9));
 var types_1 = __webpack_require__(1);
 var view_1 = __webpack_require__(0);
 function create(View, element) {
@@ -1382,7 +1195,7 @@ function create(View, element) {
 exports.create = create;
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1470,7 +1283,7 @@ function EventListener(Base) {
 exports.EventListener = EventListener;
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1556,7 +1369,7 @@ function ViewElement(Base) {
 exports.ViewElement = ViewElement;
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1654,7 +1467,7 @@ function ViewMountable(Base) {
 exports.ViewMountable = ViewMountable;
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1741,7 +1554,7 @@ function ViewObservable(Base) {
 exports.ViewObservable = ViewObservable;
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

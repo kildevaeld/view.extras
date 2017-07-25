@@ -30,7 +30,6 @@ export namespace Events {
     export const UndelegateEvents = "undelegate:events";
     export const BeforeDestroy = "before:destroy";
     export const Destroy = "destroy";
-
 }
 
 /**

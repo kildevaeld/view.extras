@@ -1,7 +1,7 @@
 import { IViewMountable } from './types';
 import { Model } from './model';
 import { equal } from './utils';
-import deprecated from 'deprecated-decorator';
+//import deprecated from 'deprecated-decorator';
 
 /**
  * Mount a view on the target and bind matched element
@@ -22,9 +22,7 @@ export function mount(selector: string) {
     }
 }
 
-export const view = deprecated('Use mount instead', mount);
-
-
+//export const view = deprecated('Use mount instead', mount);
 
 
 function setter<T extends Model, U>(target: T, prop: PropertyKey) {
@@ -81,4 +79,4 @@ export function property<T extends Model, U>(target: T, prop: any, descriptor?: 
     }
 }
 
-export const observable = deprecated('Use property', property);
+//export const observable = deprecated('Use property', property);

@@ -1,7 +1,7 @@
 
 import { ICollection, ModelEvents, isDestroyable } from './types';
 import { EventEmitter } from './event-emitter';
-import deprecated from 'deprecated-decorator';
+//import deprecated from 'deprecated-decorator';
 
 export class ArrayCollection<T> extends EventEmitter implements ICollection<T> {
     constructor(private a: Array<T> = []) {
@@ -91,11 +91,11 @@ export class ArrayCollection<T> extends EventEmitter implements ICollection<T> {
         this.trigger(ModelEvents.Sort);
     }
 
-    @deprecated("reset")
+    /*@deprecated("reset")
     clear() {
         this.a = [];
         this.trigger(ModelEvents.Reset);
-    }
+    }*/
 
     /**
      * Reset the array
@@ -117,9 +117,6 @@ export class ArrayCollection<T> extends EventEmitter implements ICollection<T> {
         for (let i = 0, ii = this.a.length; i < ii; i++) {
             if (isDestroyable(this.a[i])) (<any>this.a[i]).destroy();
         }
-        /*for (let i of this.a) {
-            if (isDestroyable(i)) i.destroy();
-        }*/
         this.a = [];
     }
 

@@ -8,7 +8,6 @@ import { Model } from './model';
  * @returns
  */
 export declare function mount(selector: string): <T extends IViewMountable>(target: T, prop: PropertyKey) => void;
-export declare const view: typeof mount;
 /**
  *
  * @export
@@ -18,4 +17,3 @@ export declare const view: typeof mount;
  * @param {TypedPropertyDescriptor<U>} [descriptor]
  */
 export declare function property<T extends Model, U>(target: T, prop: any, descriptor?: TypedPropertyDescriptor<U>): void;
-export declare const observable: typeof property;

@@ -137,7 +137,6 @@ export function getValue(el: HTMLElement, coerce: boolean = false) {
 
     return el.textContent;
 
-
 }
 
 /**

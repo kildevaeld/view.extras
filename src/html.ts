@@ -55,26 +55,12 @@ export class Html implements Iterable<Element> {
     static removeAllEventListeners() {
 
         domEvents.forEach((entries, el) => {
-
             for (let i = 0, ii = entries.length; i < ii; i++) {
                 let entry = entries[i];
                 el.removeEventListener(entry.event, entry.callback);
             }
             domEvents.delete(el);
-            /*
-            for (let entry of entries) {
-                el.removeEventListener(entry.event, entry.callback);
-            }
-            domEvents.delete(el);*/
         });
-
-        /*for (let el of domEvents.keys()) {
-            let entries = domEvents.get(el);
-            for (let entry of entries) {
-                el.removeEventListener(entry.event, entry.callback);
-            }
-            domEvents.delete(el);
-        }*/
     }
 
     static _domEvents() {
@@ -264,18 +250,6 @@ export class Html implements Iterable<Element> {
         });
     }
 
-    /*animationEnd(callback: (e: AnimationEvent) => void, timeout?: number) {
-        return this.forEach(el => {
-            dom.animationEnd(el, callback, null, timeout);
-        });
-    }
-
-    transitionEnd(callback: (e: TransitionEvent) => void, timeout?: number) {
-        return this.forEach(el => {
-            dom.transitionEnd(el, callback, null, timeout);
-        });
-    }*/
-
     // Iterator
     [Symbol.iterator]() {
 
@@ -283,7 +257,6 @@ export class Html implements Iterable<Element> {
         let components = this._elements;
         let len = components.length;
         return {
-
             next(): IteratorResult<Element> {
                 let done = pointer >= len;
                 return {

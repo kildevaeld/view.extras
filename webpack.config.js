@@ -26,7 +26,7 @@ module.exports = {
     output: {
         filename: 'view.extras.js',
         path: Path.join(process.cwd(), 'dist'),
-        library: 'view',
+        library: ['view', 'extras'],
         libraryTarget: 'umd'
     },
     module: {
