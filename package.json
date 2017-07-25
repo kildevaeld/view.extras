@@ -6,9 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "peerDependencies": {
-    "view": "github:kildevaeld/view#semver:^0.2.5"
-  },
   "devDependencies": {
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",
@@ -30,6 +27,6 @@
   "license": "MIT",
   "types": "./lib/index.d.ts",
   "dependencies": {
-    "deprecated-decorator": "^0.1.6"
+    "view": "github:kildevaeld/view#semver:^0.2.5"
   }
 }
