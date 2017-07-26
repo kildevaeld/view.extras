@@ -456,12 +456,10 @@ function EventEmitter(Base) {
                         removeFromListener(events, fn, ctx);
                     }
                 } else {
-                    /*for (let en of this._listeners.values()) {
-                        removeFromListener(en, fn, ctx);
-                    }*/
                     this._listeners.forEach(function (value) {
                         removeFromListener(value, fn, ctx);
                     });
+                    this._listeners = new Map();
                 }
                 return this;
             }
@@ -617,10 +615,6 @@ var Model = function (_event_emitter_1$Even) {
             this[types_1.MetaKeys.Attributes].forEach(function (value, key) {
                 out[key] = value;
             });
-            /*
-            for (let entry of this[MetaKeys.Attributes].entries()) {
-                out[entry[0]] = entry[1];
-            }*/
             return out;
         }
     }]);
@@ -756,11 +750,6 @@ var ArrayCollection = function (_event_emitter_1$Even) {
             this.a.sort(fn);
             this.trigger(types_1.ModelEvents.Sort);
         }
-        /*@deprecated("reset")
-        clear() {
-            this.a = [];
-            this.trigger(ModelEvents.Reset);
-        }*/
         /**
          * Reset the array
          *
@@ -779,6 +768,11 @@ var ArrayCollection = function (_event_emitter_1$Even) {
         key: "filter",
         value: function filter(fn) {
             return new this.constructor(this.a.filter(fn));
+        }
+    }, {
+        key: "map",
+        value: function map(fn) {
+            return new ArrayCollection(this.a.map(fn));
         }
     }, {
         key: "destroy",
@@ -879,10 +873,6 @@ var BaseCollectionView = function (_view_1$BaseView) {
             if (!this._childViews) {
                 this._childViews = [];
             }
-            /*for (let v of this._childViews) {
-                v.destroy()
-                v.el!.remove();
-            }*/
             for (var i = 0, ii = this._childViews.length; i < ii; i++) {
                 var v = this._childViews[i];
                 v.destroy();
@@ -1089,7 +1079,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 Object.defineProperty(exports, "__esModule", { value: true });
 var model_1 = __webpack_require__(6);
 var utils_1 = __webpack_require__(4);
-//import deprecated from 'deprecated-decorator';
 /**
  * Mount a view on the target and bind matched element
  *
@@ -1109,7 +1098,6 @@ function mount(selector) {
     };
 }
 exports.mount = mount;
-//export const view = deprecated('Use mount instead', mount);
 function setter(target, prop) {
     if (!(target instanceof model_1.Model)) {
         throw new TypeError("Target must be a EventEmitter");
@@ -1157,7 +1145,6 @@ function property(target, prop, descriptor) {
     }
 }
 exports.property = property;
-//export const observable = deprecated('Use property', property);
 
 /***/ }),
 /* 11 */
@@ -1301,6 +1288,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var view_1 = __webpack_require__(0);
+/**
+ *  Ensures the view has an element.
+ *  control `tagName`, `className` and `attributes` with the attribute decorator or options argument
+ *
+ * @export
+ * @template T
+ * @template E
+ * @param {T} Base
+ * @returns {(Constructor<IViewElement> & T)}
+ */
 function ViewElement(Base) {
     return function (_Base) {
         _inherits(_class, _Base);

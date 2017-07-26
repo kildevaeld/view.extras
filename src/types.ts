@@ -17,6 +17,7 @@ export function setInvoker(i: IInvoker) {
 
 export interface IViewMountable {
     //_views: ViewMap;
+
 }
 
 export namespace Events {

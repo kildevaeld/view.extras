@@ -53,6 +53,7 @@ export declare class ArrayCollection<T> extends EventEmitter implements ICollect
      */
     reset(a?: T[]): void;
     filter(fn: (a: T) => boolean): this;
+    map<U>(fn: (a: T) => U): ArrayCollection<U>;
     destroy(): void;
     /**
      * Returns a copy of the array
