@@ -107,6 +107,10 @@ export class ArrayCollection<T> extends EventEmitter implements ICollection<T> {
         return new (<any>this).constructor(this.a.filter(fn));
     }
 
+    map<U>(fn: (a: T) => U): ArrayCollection<U> {
+        return new ArrayCollection(this.a.map(fn));
+    }
+
     destroy() {
         for (let i = 0, ii = this.a.length; i < ii; i++) {
             if (isDestroyable(this.a[i])) (<any>this.a[i]).destroy();
