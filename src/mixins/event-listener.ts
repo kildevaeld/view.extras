@@ -7,7 +7,9 @@ import { IEventEmitter, EventHandler } from '../types';
 
 export function EventListener<T extends Constructor<{}>>(Base: T): Constructor<IEventListener> & T {
     return class extends Base {
+
         _listeningTo: { [key: string]: any }
+
         listenTo(obj: IEventEmitter, event: string, fn: EventHandler, ctx?: any, once: boolean = false) {
             if (!isEventEmitter(obj)) {
                 //if (EventEmitter.throwOnError)

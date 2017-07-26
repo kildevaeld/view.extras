@@ -65,14 +65,11 @@ export function EventEmitter<T extends Constructor<{}>>(Base: T): Constructor<IE
 
             } else {
 
-                /*for (let en of this._listeners.values()) {
-                    removeFromListener(en, fn, ctx);
-                }*/
-
                 this._listeners.forEach((value) => {
                     removeFromListener(value, fn, ctx)
                 });
 
+                this._listeners = new Map();
 
             }
 

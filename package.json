@@ -4,7 +4,7 @@
   "description": "",
   "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node node_modules/.bin/mocha -r should"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
@@ -16,8 +16,11 @@
     "gulp-bump": "^2.7.0",
     "gulp-typescript": "^3.2.1",
     "gulp-util": "^3.0.8",
+    "mocha": "^3.4.2",
     "orange.dom": "github:kildevaeld/orange.dom",
     "reflect-metadata": "^0.1.10",
+    "should": "^11.2.1",
+    "sinon": "^2.4.0",
     "ts-loader": "^2.3.1",
     "typescript": "^2.4.2",
     "view": "github:kildevaeld/view#semver:^0.2.5",

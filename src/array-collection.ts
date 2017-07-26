@@ -91,12 +91,6 @@ export class ArrayCollection<T> extends EventEmitter implements ICollection<T> {
         this.trigger(ModelEvents.Sort);
     }
 
-    /*@deprecated("reset")
-    clear() {
-        this.a = [];
-        this.trigger(ModelEvents.Reset);
-    }*/
-
     /**
      * Reset the array
      * 
