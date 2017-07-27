@@ -1,43 +1,43 @@
 
 import { Constructor, uniqueId } from 'view';
 import { IEventListener } from '../types';
-import { isEventEmitter } from './event-emitter';
+import { isEventEmitter, EventEmitter } from './event-emitter';
 import { IEventEmitter, EventHandler } from '../types';
 
 
 export function EventListener<T extends Constructor<{}>>(Base: T): Constructor<IEventListener> & T {
     return class extends Base {
 
-        _listeningTo: { [key: string]: any }
+        _listeningTo: { [key: string]: IEventEmitter }
 
-        listenTo(obj: IEventEmitter, event: string, fn: EventHandler, ctx?: any, once: boolean = false) {
+        listenTo(obj: IEventEmitter, event: any, fn: EventHandler, ctx?: any, once: boolean = false) {
             if (!isEventEmitter(obj)) {
-                //if (EventEmitter.throwOnError)
-                //    throw new EventEmitterError("obj is not an EventEmitter", once ? "listenToOnce" : "listenTo", this, obj);
+                if (EventEmitter.throwOnError)
+                    EventEmitter.throwError(new TypeError("obj is not an EventEmitter"))
                 return this;
             }
 
-            let listeningTo, id, meth;
+            let listeningTo, id, meth: 'once' | 'on';
             listeningTo = this._listeningTo || (this._listeningTo = {});
             id = obj.listenId || (obj.listenId = uniqueId())
             listeningTo[id] = obj;
             meth = once ? 'once' : 'on';
 
-            (<any>obj)[meth](event, fn, ctx || this);
+            obj[meth](event, fn, ctx || this);
 
             return this;
         }
 
 
-        listenToOnce(obj: IEventEmitter, event: string, fn: EventHandler, ctx?: any) {
+        listenToOnce(obj: IEventEmitter, event: any, fn: EventHandler, ctx?: any) {
             return this.listenTo(obj, event, fn, ctx, true)
         }
 
 
-        stopListening(obj?: IEventEmitter, event?: string, callback?: EventHandler) {
+        stopListening(obj?: IEventEmitter, event?: any, callback?: EventHandler) {
             if (obj && !isEventEmitter(obj)) {
-                //if (EventEmitter.throwOnError)
-                //    throw new EventEmitterError("obj is not an EventEmitter", "stopListening", this, obj);
+                if (EventEmitter.throwOnError)
+                    EventEmitter.throwError(new TypeError("obj is not an EventEmitter"))
                 return this;
             }
 
@@ -51,7 +51,8 @@ export function EventListener<T extends Constructor<{}>>(Base: T): Constructor<I
                 obj = listeningTo[id];
                 obj!.off(event, callback, this);
 
-                if (remove || !Object.keys((<any>obj).listeners).length) delete this._listeningTo[id];
+                if (remove || obj.listeners.size === 0) delete this._listeningTo[id];
+                //if (remove || !Object.keys((<any>obj).listeners).length) delete this._listeningTo[id];
             }
             return this;
         }

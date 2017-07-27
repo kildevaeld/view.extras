@@ -1217,8 +1217,7 @@ function EventListener(Base) {
                 var once = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
 
                 if (!event_emitter_1.isEventEmitter(obj)) {
-                    //if (EventEmitter.throwOnError)
-                    //    throw new EventEmitterError("obj is not an EventEmitter", once ? "listenToOnce" : "listenTo", this, obj);
+                    if (event_emitter_1.EventEmitter.throwOnError) event_emitter_1.EventEmitter.throwError(new TypeError("obj is not an EventEmitter"));
                     return this;
                 }
                 var listeningTo = void 0,
@@ -1240,8 +1239,7 @@ function EventListener(Base) {
             key: "stopListening",
             value: function stopListening(obj, event, callback) {
                 if (obj && !event_emitter_1.isEventEmitter(obj)) {
-                    //if (EventEmitter.throwOnError)
-                    //    throw new EventEmitterError("obj is not an EventEmitter", "stopListening", this, obj);
+                    if (event_emitter_1.EventEmitter.throwOnError) event_emitter_1.EventEmitter.throwError(new TypeError("obj is not an EventEmitter"));
                     return this;
                 }
                 var listeningTo = this._listeningTo;
@@ -1252,7 +1250,8 @@ function EventListener(Base) {
                 for (var id in listeningTo) {
                     obj = listeningTo[id];
                     obj.off(event, callback, this);
-                    if (remove || !Object.keys(obj.listeners).length) delete this._listeningTo[id];
+                    if (remove || obj.listeners.size === 0) delete this._listeningTo[id];
+                    //if (remove || !Object.keys((<any>obj).listeners).length) delete this._listeningTo[id];
                 }
                 return this;
             }
