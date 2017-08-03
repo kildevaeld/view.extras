@@ -1,5 +1,5 @@
 
-import { equal } from './utils';
+import { equal } from 'equaljs';
 import { MetaKeys } from './types';
 import { EventEmitter } from './event-emitter';
 

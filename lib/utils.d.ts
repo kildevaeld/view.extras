@@ -1,4 +1,3 @@
-export declare function equal(a: any, b: any): boolean;
 export declare function isPropertyKey(a: any): a is PropertyKey;
 /**
  * Get value from HTML Elemement

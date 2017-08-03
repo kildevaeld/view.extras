@@ -1,13 +1,13 @@
 import { IViewMountable } from './types';
 import { Model } from './model';
-import { equal } from './utils';
+import { equal } from 'equaljs';
 
 /**
  * Mount a view on the target and bind matched element
- * 
+ *
  * @export
- * @param {string} selector 
- * @returns 
+ * @param {string} selector
+ * @returns
  */
 export function mount(selector: string) {
     return function <T extends IViewMountable>(target: T, prop: PropertyKey) {
@@ -41,12 +41,12 @@ function getter<T extends Model, U>(_: T, prop: PropertyKey) {
 }
 
 /**
- * 
+ *
  * @export
  * @template
- * @param {T} target 
- * @param {*} prop 
- * @param {TypedPropertyDescriptor<U>} [descriptor] 
+ * @param {T} target
+ * @param {*} prop
+ * @param {TypedPropertyDescriptor<U>} [descriptor]
  */
 export function property<T extends Model, U>(target: T, prop: any, descriptor?: TypedPropertyDescriptor<U>) {
     descriptor = descriptor || Object.getOwnPropertyDescriptor(target, prop);

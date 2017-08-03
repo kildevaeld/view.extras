@@ -1,7 +1,6 @@
 
 import { ICollection, ModelEvents, isDestroyable } from './types';
 import { EventEmitter } from './event-emitter';
-//import deprecated from 'deprecated-decorator';
 
 export class ArrayCollection<T> extends EventEmitter implements ICollection<T> {
     constructor(private a: Array<T> = []) {

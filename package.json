@@ -16,20 +16,21 @@
     "gulp-bump": "^2.7.0",
     "gulp-typescript": "^3.2.1",
     "gulp-util": "^3.0.8",
-    "mocha": "^3.4.2",
+    "mocha": "^3.5.0",
     "orange.dom": "github:kildevaeld/orange.dom",
     "reflect-metadata": "^0.1.10",
     "should": "^11.2.1",
-    "sinon": "^2.4.0",
-    "ts-loader": "^2.3.1",
+    "sinon": "^2.4.1",
+    "ts-loader": "^2.3.2",
     "typescript": "^2.4.2",
-    "view": "github:kildevaeld/view#semver:^0.2.5",
     "webpack": "^2.7.0"
   },
   "author": "Rasmus Kildevæld <rasmuskildevaeld@gmail.com>",
   "license": "MIT",
   "types": "./lib/index.d.ts",
   "dependencies": {
+    "mixins.events": "github:kildevaeld/mixins.events#semver:^0.1.0",
+    "equaljs": "github:kildevaeld/equaljs#semver:^0.5.0",
     "view": "github:kildevaeld/view#semver:^0.2.5"
   }
 }

@@ -1,5 +1,5 @@
 import { Constructor, BaseView, triggerMethodOn, EventsMap } from 'view';
-import { isEventEmitter } from './event-emitter';
+import { isEventEmitter } from 'mixins.events';
 import { Events } from '../types';
 
 export function ViewObservable<T extends Constructor<BaseView<U>>, U extends Element>(Base: T): T {

@@ -13,7 +13,7 @@ export * from './controller';
 export { Mixins }
 
 import { Invoker } from './types'
-import { IView, Constructor, isString } from 'view';
+import { IView, Constructor, isString, View } from 'view';
 
 export function create<T extends IView>(View: Constructor<T>, element: Element | string): T {
 	if (isString(element)) {
@@ -25,3 +25,6 @@ export function create<T extends IView>(View: Constructor<T>, element: Element |
 
 	return view;
 }
+
+import { IViewTemplate, IViewElement } from './types'
+export class TemplateView extends Mixins.ViewTemplate(Mixins.ViewElement(View)) implements IViewTemplate, IViewElement { }

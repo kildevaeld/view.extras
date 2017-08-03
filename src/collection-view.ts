@@ -1,7 +1,7 @@
 
 import { BaseView, BaseViewOptions, View, Constructor, triggerMethodOn } from 'view';
-import { ICollection, ModelEvents, Invoker, IViewElement, IEventEmitter } from './types';
-import { isEventEmitter } from './mixins';
+import { ICollection, ModelEvents, Invoker, IViewElement } from './types';
+import { isEventEmitter, IEventEmitter } from 'mixins.events';
 
 
 export interface BaseCollectionViewOptions<T extends Element, U extends View> extends BaseViewOptions<T> {
