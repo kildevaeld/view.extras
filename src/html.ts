@@ -102,7 +102,6 @@ export class Html implements Iterable<Element> {
 
     removeClass(str: string): Html {
         return this.forEach((e) => {
-            console.log('remove str', str)
             e.classList.remove(str);
         });
     }
