@@ -1,5 +1,5 @@
 export declare class Html implements Iterable<Element> {
-    static query(query: string | HTMLElement | NodeList | Element, context?: string | HTMLElement | NodeList | Element): Html;
+    static query(query: string | HTMLElement | Element | Html | ArrayLike<Html> | ArrayLike<Node>, context?: string | HTMLElement | ArrayLike<Node> | Element): Html;
     static removeAllEventListeners(): void;
     static _domEvents(): Map<Element, {
         event: string;
@@ -7,7 +7,7 @@ export declare class Html implements Iterable<Element> {
     }[]>;
     private _elements;
     readonly length: number;
-    constructor(el: HTMLElement[]);
+    constructor(el: HTMLElement[] | HTMLElement);
     get(n: number): HTMLElement;
     addClass(str: string): Html;
     removeClass(str: string): Html;
@@ -33,4 +33,4 @@ export declare class Html implements Iterable<Element> {
         next(): IteratorResult<Element>;
     };
 }
-export declare function html(query: string | HTMLElement | NodeList | Element, context?: string | HTMLElement | NodeList | Element): Html;
+export declare function html(query: string | HTMLElement | Element | Html | ArrayLike<Html> | ArrayLike<Node>, context?: string | HTMLElement | ArrayLike<Node> | Element): Html;

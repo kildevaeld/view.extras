@@ -19,7 +19,7 @@ const domEvents: Map<Element, { event: string; callback: (e: Event) => void }[]>
 
 export class Html implements Iterable<Element> {
 
-    static query(query: string | HTMLElement | NodeList | Element, context?: string | HTMLElement | NodeList | Element): Html {
+    static query(query: string | HTMLElement | Element | Html | ArrayLike<Html> | ArrayLike<Node>, context?: string | HTMLElement | ArrayLike<Node> | Element): Html {
         if (typeof context === 'string') {
             context = document.querySelectorAll(<string>context);
         }
@@ -31,7 +31,6 @@ export class Html implements Iterable<Element> {
                 && query.length >= 3) {
                 return new Html([parseHTML(query)]);
             }
-
 
             if (context) {
                 if (context instanceof HTMLElement) {
@@ -47,6 +46,18 @@ export class Html implements Iterable<Element> {
             els = [query as HTMLElement];
         } else if (query && query instanceof NodeList) {
             els = slice.call(query);
+        } else if (query && Array.isArray(query)) {
+            els = [];
+            for (let i = 0, ii = query.length; i < ii; i++) {
+                let e = query[i];
+                if (e instanceof Html) {
+                    els = els.concat(e._elements);
+                } else if (e instanceof Node) {
+                    els.push(e as HTMLElement);
+                }
+            }
+        } else if (query && query instanceof Html) {
+            return query;
         }
 
         return new Html(els);
@@ -73,8 +84,8 @@ export class Html implements Iterable<Element> {
         return this._elements.length;
     }
 
-    constructor(el: HTMLElement[]) {
-        if (!Array.isArray(el)) el = [<any>el]
+    constructor(el: HTMLElement[] | HTMLElement) {
+        if (!Array.isArray(el)) el = [el]
         this._elements = el || [];
     }
 
@@ -275,6 +286,6 @@ export class Html implements Iterable<Element> {
     }
 }
 
-export function html(query: string | HTMLElement | NodeList | Element, context?: string | HTMLElement | NodeList | Element): Html {
+export function html(query: string | HTMLElement | Element | Html | ArrayLike<Html> | ArrayLike<Node>, context?: string | HTMLElement | ArrayLike<Node> | Element): Html {
     return Html.query(query, context);
 }
