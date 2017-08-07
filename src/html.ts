@@ -122,6 +122,10 @@ export class Html implements Iterable<Element> {
         return this;
     }
 
+
+    attr(key: string, value: string): Html;
+    attr(key: string): string;
+    attr(key: Object): Html;
     attr(key: string | Object, value?: any): any {
         let attr;
         if (typeof key === 'string' && value) {
