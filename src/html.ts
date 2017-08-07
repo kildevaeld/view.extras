@@ -127,6 +127,12 @@ export class Html implements Iterable<Element> {
         });
     }
 
+    removeAttr(key: string) {
+        return this.forEach(e => {
+            e.removeAttribute(key);
+        });
+    }
+
     text(): string;
     text(str: string): Html;
     text(str?: string): any {

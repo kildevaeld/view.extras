@@ -14,6 +14,7 @@ export declare class Html implements Iterable<Element> {
     hasClass(str: string): boolean;
     toggleClass(str: string): Html;
     attr(key: string | Object, value?: any): any;
+    removeAttr(key: string): Html;
     text(): string;
     text(str: string): Html;
     html(): string;

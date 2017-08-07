@@ -625,7 +625,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 Object.defineProperty(exports, "__esModule", { value: true });
 var types_1 = __webpack_require__(1);
 var event_emitter_1 = __webpack_require__(2);
-//import deprecated from 'deprecated-decorator';
 
 var ArrayCollection = function (_event_emitter_1$Even) {
     _inherits(ArrayCollection, _event_emitter_1$Even);
