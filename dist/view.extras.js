@@ -1067,13 +1067,16 @@ var equaljs_1 = __webpack_require__(6);
  * @returns
  */
 function mount(selector) {
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
     return function (target, prop) {
         var View = Reflect.getOwnMetadata("design:type", target, prop);
         if (!View) throw new Error('design:type does not exists');
         if (!target._views) target._views = {};
         target._views[prop] = {
             selector: selector,
-            view: View
+            view: View,
+            optional: options.optional || false
         };
     };
 }
@@ -1471,7 +1474,7 @@ function ViewMountable(Base) {
                     o = views[key];
                     var sel = view_1.normalizeUIString(o.selector, this._ui || {});
                     el = this.el.querySelector(sel);
-                    if (!el) throw new ReferenceError("selector \"" + sel + "\" for view " + o.view.name + " not found in dom");
+                    if (!el && !o.optional) throw new ReferenceError("selector \"" + sel + "\" for view " + o.view.name + " not found in dom");
                     var view = this[key];
                     if (!view) throw new ReferenceError("view \"" + o.view.name + "\" not mount");
                     view.setElement(el, false);

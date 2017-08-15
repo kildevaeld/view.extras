@@ -1,5 +1,8 @@
 import { IViewMountable } from './types';
 import { Model } from './model';
+export interface MountOptions {
+    optional?: boolean;
+}
 /**
  * Mount a view on the target and bind matched element
  *
@@ -7,7 +10,7 @@ import { Model } from './model';
  * @param {string} selector
  * @returns
  */
-export declare function mount(selector: string): <T extends IViewMountable>(target: T, prop: PropertyKey) => void;
+export declare function mount(selector: string, options?: MountOptions): <T extends IViewMountable>(target: T, prop: PropertyKey) => void;
 /**
  *
  * @export

@@ -2,6 +2,11 @@ import { IViewMountable } from './types';
 import { Model } from './model';
 import { equal } from 'equaljs';
 
+
+export interface MountOptions {
+    optional?: boolean
+}
+
 /**
  * Mount a view on the target and bind matched element
  *
@@ -9,14 +14,15 @@ import { equal } from 'equaljs';
  * @param {string} selector
  * @returns
  */
-export function mount(selector: string) {
+export function mount(selector: string, options: MountOptions = {}) {
     return function <T extends IViewMountable>(target: T, prop: PropertyKey) {
         let View = Reflect.getOwnMetadata("design:type", target, prop as string);
         if (!View) throw new Error('design:type does not exists');
         if (!(<any>target)._views) (<any>target)._views = {};
         (<any>target)._views[prop as string] = {
             selector: selector,
-            view: View
+            view: View,
+            optional: options.optional || false
         };
     }
 }

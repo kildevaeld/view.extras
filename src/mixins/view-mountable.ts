@@ -4,6 +4,7 @@ import { Invoker, IViewMountable } from '../types';
 interface ViewMapOptions<T extends BaseView<U>, U extends Element> {
     selector: string;
     view: BaseViewConstructor<T, U>
+    optional: boolean;
     [key: string]: any;
 }
 
@@ -62,7 +63,7 @@ export function ViewMountable<T extends Constructor<IView>>(Base: T): Constructo
                 let sel = normalizeUIString(o.selector, (<any>this)._ui || {})
 
                 el = this.el!.querySelector(sel);
-                if (!el) throw new ReferenceError(`selector "${sel}" for view ${o.view.name} not found in dom`);
+                if (!el && !o.optional) throw new ReferenceError(`selector "${sel}" for view ${o.view.name} not found in dom`);
 
                 let view: BaseView<Element> = (<any>this)[key];
                 if (!view) throw new ReferenceError(`view "${o.view.name}" not mount`);
