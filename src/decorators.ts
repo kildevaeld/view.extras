@@ -22,7 +22,7 @@ export function mount(selector: string, options: MountOptions = {}) {
         (<any>target)._views[prop as string] = {
             selector: selector,
             view: View,
-            optional: options.optional || false
+            optional: typeof options.optional !== 'boolean' ? false : options.optional
         };
     }
 }

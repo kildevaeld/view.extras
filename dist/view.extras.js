@@ -1076,7 +1076,7 @@ function mount(selector) {
         target._views[prop] = {
             selector: selector,
             view: View,
-            optional: options.optional || false
+            optional: typeof options.optional !== 'boolean' ? false : options.optional
         };
     };
 }
