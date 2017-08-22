@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 14);
+/******/ 	return __webpack_require__(__webpack_require__.s = 15);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -251,7 +251,7 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(__webpack_require__(7));
-__export(__webpack_require__(19));
+__export(__webpack_require__(20));
 __export(__webpack_require__(3));
 
 /***/ }),
@@ -1136,19 +1136,345 @@ exports.property = property;
 "use strict";
 
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var view_1 = __webpack_require__(0);
+var singleTag = /^<([a-z][^\/\0>:\x20\t\r\n\f]*)[\x20\t\r\n\f]*\/?>(?:<\/\1>|)$/i,
+    slice = Array.prototype.slice;
+function parseHTML(html) {
+    var parsed = singleTag.exec(html);
+    if (parsed) {
+        return document.createElement(parsed[0]);
+    }
+    var div = document.createElement('div');
+    div.innerHTML = html;
+    var element = div.firstChild;
+    return element;
+}
+var domEvents = new Map();
+
+var Html = function () {
+    _createClass(Html, [{
+        key: "length",
+        get: function get() {
+            return this._elements.length;
+        }
+    }], [{
+        key: "query",
+        value: function query(_query, context) {
+            if (typeof context === 'string') {
+                context = document.querySelectorAll(context);
+            }
+            var html = void 0;
+            var els = void 0;
+            if (typeof _query === 'string') {
+                if (_query.length > 0 && _query[0] === '<' && _query[_query.length - 1] === ">" && _query.length >= 3) {
+                    return new Html([parseHTML(_query)]);
+                }
+                if (context) {
+                    if (context instanceof HTMLElement) {
+                        els = slice.call(context.querySelectorAll(_query));
+                    } else {
+                        html = new Html(slice.call(context));
+                        return html.find(_query);
+                    }
+                } else {
+                    els = slice.call(document.querySelectorAll(_query));
+                }
+            } else if (_query && _query instanceof Element) {
+                els = [_query];
+            } else if (_query && _query instanceof NodeList) {
+                els = slice.call(_query);
+            } else if (_query && Array.isArray(_query)) {
+                els = [];
+                for (var i = 0, ii = _query.length; i < ii; i++) {
+                    var e = _query[i];
+                    if (e instanceof Html) {
+                        els = els.concat(e._elements);
+                    } else if (e instanceof Node) {
+                        els.push(e);
+                    }
+                }
+            } else if (_query && _query instanceof Html) {
+                return _query;
+            }
+            return new Html(els);
+        }
+    }, {
+        key: "removeAllEventListeners",
+        value: function removeAllEventListeners() {
+            domEvents.forEach(function (entries, el) {
+                for (var i = 0, ii = entries.length; i < ii; i++) {
+                    var entry = entries[i];
+                    el.removeEventListener(entry.event, entry.callback);
+                }
+                domEvents.delete(el);
+            });
+        }
+    }, {
+        key: "_domEvents",
+        value: function _domEvents() {
+            return domEvents;
+        }
+    }]);
+
+    function Html(el) {
+        _classCallCheck(this, Html);
+
+        if (!Array.isArray(el)) el = [el];
+        this._elements = el || [];
+    }
+
+    _createClass(Html, [{
+        key: "get",
+        value: function get(n) {
+            n = n === undefined || n < 0 ? 0 : n;
+            return n >= this.length ? undefined : this._elements[n];
+        }
+    }, {
+        key: "addClass",
+        value: function addClass(str) {
+            return this.forEach(function (e) {
+                e.classList.add(str);
+            });
+        }
+    }, {
+        key: "removeClass",
+        value: function removeClass(str) {
+            return this.forEach(function (e) {
+                e.classList.remove(str);
+            });
+        }
+    }, {
+        key: "hasClass",
+        value: function hasClass(str) {
+            return this._elements.reduce(function (_, c) {
+                return c.classList.contains(str);
+            }, false);
+        }
+    }, {
+        key: "toggleClass",
+        value: function toggleClass(str) {
+            this.forEach(function (m) {
+                if (m.classList.contains(str)) m.classList.remove(str);else m.classList.add(str);
+            });
+            return this;
+        }
+    }, {
+        key: "attr",
+        value: function attr(key, value) {
+            var attr = void 0;
+            if (typeof key === 'string' && value) {
+                attr = _defineProperty({}, key, value);
+            } else if (typeof key == 'string') {
+                if (this.length) return this.get(0).getAttribute(key);
+            } else if (view_1.isObject(key)) {
+                attr = key;
+            }
+            return this.forEach(function (e) {
+                for (var k in attr) {
+                    e.setAttribute(k, attr[k]);
+                }
+            });
+        }
+    }, {
+        key: "removeAttr",
+        value: function removeAttr(key) {
+            return this.forEach(function (e) {
+                e.removeAttribute(key);
+            });
+        }
+    }, {
+        key: "text",
+        value: function text(str) {
+            if (arguments.length === 0) {
+                return this.length > 0 ? this.get(0).textContent : null;
+            }
+            return this.forEach(function (e) {
+                return e.textContent = str;
+            });
+        }
+    }, {
+        key: "html",
+        value: function html(_html) {
+            if (arguments.length === 0) {
+                return this.length > 0 ? this.get(0).innerHTML : null;
+            }
+            return this.forEach(function (e) {
+                return e.innerHTML = _html;
+            });
+        }
+    }, {
+        key: "css",
+        value: function css(attr, value) {
+            if (arguments.length === 2) {
+                return this.forEach(function (e) {
+                    if (attr in e.style) e.style[attr] = String(value);
+                });
+            } else {
+                return this.forEach(function (e) {
+                    for (var k in attr) {
+                        if (k in e.style) e.style[k] = String(attr[k]);
+                    }
+                });
+            }
+        }
+    }, {
+        key: "parent",
+        value: function parent() {
+            var out = [];
+            this.forEach(function (e) {
+                if (e.parentElement) {
+                    out.push(e.parentElement);
+                }
+            });
+            return new Html(out);
+        }
+    }, {
+        key: "remove",
+        value: function remove() {
+            return this.forEach(function (e) {
+                if (e.parentElement) e.parentElement.removeChild(e);
+            });
+        }
+    }, {
+        key: "clone",
+        value: function clone() {
+            return new Html(this.map(function (m) {
+                return m.cloneNode();
+            }));
+        }
+    }, {
+        key: "find",
+        value: function find(str) {
+            var out = [];
+            this.forEach(function (e) {
+                out = out.concat(slice.call(e.querySelectorAll(str)));
+            });
+            return new Html(out);
+        }
+    }, {
+        key: "map",
+        value: function map(fn) {
+            var out = new Array(this.length);
+            this.forEach(function (e, i) {
+                out[i] = fn(e, i);
+            });
+            return out;
+        }
+    }, {
+        key: "forEach",
+        value: function forEach(fn) {
+            this._elements.forEach(fn);
+            return this;
+        }
+    }, {
+        key: "on",
+        value: function on(name, callback, useCap) {
+            return this.forEach(function (e) {
+                var entries = domEvents.get(e);
+                if (!entries) {
+                    entries = [];
+                    domEvents.set(e, entries);
+                }
+                e.addEventListener(name, callback, useCap);
+                entries.push({
+                    event: name,
+                    callback: callback
+                });
+            });
+        }
+    }, {
+        key: "once",
+        value: function once(name, callback, useCap) {
+            var _this = this;
+
+            return this.on(name, function (e) {
+                callback(e);
+                setTimeout(function () {
+                    return _this.off(name, callback);
+                });
+            }, useCap);
+        }
+    }, {
+        key: "off",
+        value: function off(name, callback) {
+            if (!name) {
+                return this.forEach(function (el) {
+                    var entries = domEvents.get(el);
+                    if (entries) {
+                        entries.forEach(function (e) {
+                            el.removeEventListener(e.event, e.callback);
+                        });
+                        domEvents.delete(el);
+                    }
+                });
+            }
+            return this.forEach(function (el) {
+                var entries = domEvents.get(el);
+                if (!entries) return;
+                entries.forEach(function (entry, index) {
+                    if (entry.event === name && (callback ? callback === entry.callback : true)) {
+                        domEvents.get(el).splice(index, 1);
+                    }
+                });
+                if (!domEvents.get(el).length) domEvents.delete(el);
+            });
+        }
+        // Iterator
+
+    }, {
+        key: Symbol.iterator,
+        value: function value() {
+            var pointer = 0;
+            var components = this._elements;
+            var len = components.length;
+            return {
+                next: function next() {
+                    var done = pointer >= len;
+                    return {
+                        done: done,
+                        value: done ? null : components[pointer++]
+                    };
+                }
+            };
+        }
+    }]);
+
+    return Html;
+}();
+
+exports.Html = Html;
+function html(query, context) {
+    return Html.query(query, context);
+}
+exports.html = html;
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 function __export(m) {
     for (var p in m) {
         if (!exports.hasOwnProperty(p)) exports[p] = m[p];
     }
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(16));
 __export(__webpack_require__(17));
 __export(__webpack_require__(18));
-__export(__webpack_require__(15));
+__export(__webpack_require__(19));
+__export(__webpack_require__(16));
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1240,7 +1566,7 @@ function slice(a, index, end) {
 exports.slice = slice;
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1258,7 +1584,7 @@ function __export(m) {
     }
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-var Mixins = __webpack_require__(12);
+var Mixins = __webpack_require__(13);
 exports.Mixins = Mixins;
 __export(__webpack_require__(1));
 __export(__webpack_require__(8));
@@ -1266,8 +1592,9 @@ __export(__webpack_require__(9));
 __export(__webpack_require__(11));
 __export(__webpack_require__(5));
 __export(__webpack_require__(2));
-__export(__webpack_require__(13));
+__export(__webpack_require__(14));
 __export(__webpack_require__(10));
+__export(__webpack_require__(12));
 var types_1 = __webpack_require__(1);
 var view_1 = __webpack_require__(0);
 function create(View, element) {
@@ -1295,7 +1622,7 @@ var TemplateView = function (_Mixins$ViewTemplate) {
 exports.TemplateView = TemplateView;
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1391,7 +1718,7 @@ function ViewElement(Base) {
 exports.ViewElement = ViewElement;
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1489,7 +1816,7 @@ function ViewMountable(Base) {
 exports.ViewMountable = ViewMountable;
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1576,7 +1903,7 @@ function ViewObservable(Base) {
 exports.ViewObservable = ViewObservable;
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1644,7 +1971,7 @@ function ViewTemplate(Base) {
 exports.ViewTemplate = ViewTemplate;
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

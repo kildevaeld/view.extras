@@ -9,7 +9,7 @@ export * from './model';
 export * from './event-emitter';
 export * from './utils';
 export * from './controller';
-//export * from './html';
+export * from './html';
 export { Mixins }
 
 import { Invoker } from './types'

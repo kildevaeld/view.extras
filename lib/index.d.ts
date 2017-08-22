@@ -7,6 +7,7 @@ export * from './model';
 export * from './event-emitter';
 export * from './utils';
 export * from './controller';
+export * from './html';
 export { Mixins };
 import { IView, Constructor, View } from 'view';
 export declare function create<T extends IView>(View: Constructor<T>, element: Element | string): T;
