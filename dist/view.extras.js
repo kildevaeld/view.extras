@@ -1140,6 +1140,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -1239,15 +1241,23 @@ var Html = function () {
     }, {
         key: "addClass",
         value: function addClass(str) {
+            if (!str) return this;
+            var split = str.split(' ');
             return this.forEach(function (e) {
-                e.classList.add(str);
+                var _e$classList;
+
+                (_e$classList = e.classList).add.apply(_e$classList, _toConsumableArray(split));
             });
         }
     }, {
         key: "removeClass",
         value: function removeClass(str) {
+            if (!str) return this;
+            var split = str.split(' ');
             return this.forEach(function (e) {
-                e.classList.remove(str);
+                var _e$classList2;
+
+                (_e$classList2 = e.classList).remove.apply(_e$classList2, _toConsumableArray(split));
             });
         }
     }, {
@@ -1260,8 +1270,12 @@ var Html = function () {
     }, {
         key: "toggleClass",
         value: function toggleClass(str) {
+            if (!str) return this;
+            var split = str.split(' ');
             this.forEach(function (m) {
-                if (m.classList.contains(str)) m.classList.remove(str);else m.classList.add(str);
+                split.forEach(function (str) {
+                    if (m.classList.contains(str)) m.classList.remove(str);else m.classList.add(str);
+                });
             });
             return this;
         }

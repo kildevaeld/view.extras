@@ -95,28 +95,37 @@ export class Html implements Iterable<Element> {
     }
 
     addClass(str: string): Html {
+        if (!str) return this;
+        var split = str.split(' ');
         return this.forEach((e) => {
-            e.classList.add(str);
+            e.classList.add(...split)
         });
     }
 
     removeClass(str: string): Html {
+        if (!str) return this;
+        var split = str.split(' ');
         return this.forEach((e) => {
-            e.classList.remove(str);
+            e.classList.remove(...split);
         });
     }
 
     hasClass(str: string): boolean {
+
         return this._elements.reduce<boolean>((_, c) => {
             return c.classList.contains(str);
         }, false);
     }
 
     toggleClass(str: string): Html {
+        if (!str) return this;
+        var split = str.split(' ');
         this.forEach(m => {
-            if (m.classList.contains(str))
-                m.classList.remove(str);
-            else m.classList.add(str);
+            split.forEach(str => {
+                if (m.classList.contains(str))
+                    m.classList.remove(str);
+                else m.classList.add(str);
+            })
         });
         return this;
     }
