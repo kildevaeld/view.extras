@@ -521,7 +521,7 @@ function EventEmitter(Base) {
                     this._listeners.forEach(function (value) {
                         removeFromListener(value, fn, ctx);
                     });
-                    this._listeners = new Map();
+                    //this._listeners = new Map();
                 }
                 return this;
             }
