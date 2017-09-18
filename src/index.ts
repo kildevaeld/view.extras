@@ -28,3 +28,4 @@ export function create<T extends IView>(View: Constructor<T>, element: Element |
 
 import { IViewTemplate, IViewElement } from './types'
 export class TemplateView extends Mixins.ViewTemplate(Mixins.ViewElement(View)) implements IViewTemplate, IViewElement { }
+
