@@ -682,6 +682,8 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var lib_1 = __webpack_require__(8);
 var view_1 = __webpack_require__(0);
+// It isn't really necessary to use a model in 
+// this implemnentation.
 
 var TodoModel = function (_lib_1$Model) {
     _inherits(TodoModel, _lib_1$Model);
@@ -740,13 +742,6 @@ var BaseTodoListView = function (_lib_1$CollectionView) {
 }(lib_1.CollectionView);
 
 exports.BaseTodoListView = BaseTodoListView;
-/*
-@attributes({
-    events: {
-        'click button.add-btn': 'onNewClicked'
-    }
-})*/
-
 var TodoListView = function (_lib_1$Mixins$ViewTem) {
     _inherits(TodoListView, _lib_1$Mixins$ViewTem);
 
@@ -759,7 +754,7 @@ var TodoListView = function (_lib_1$Mixins$ViewTem) {
         _this4.collection = new lib_1.ArrayCollection();
         _this4.childViewContainer = "ul";
         _this4.template = function (_) {
-            return "\n        <div>\n            <button class=\"add-btn\">New Todo</button>\n            <ul></ul>\n        </div>";
+            return "\n        <div>\n            <div>\n                <input type=\"text\" />\n                <button class=\"add-btn\" disabled>New Todo</button>\n            </div>\n            <ul></ul>\n        </div>";
         };
         return _this4;
     }
@@ -767,12 +762,20 @@ var TodoListView = function (_lib_1$Mixins$ViewTem) {
     _createClass(TodoListView, [{
         key: "onNewClicked",
         value: function onNewClicked() {
-            this.collection.push(new TodoModel("Todo " + this.collection.length));
+            this.collection.push(new TodoModel(lib_1.getValue(this.ui.input)));
+            lib_1.setValue(this.ui.input, null);
+            this.ui.btn.setAttribute('disabled', 'disabled');
+            this.ui.input.focus();
+        }
+    }, {
+        key: "onInputKeyPress",
+        value: function onInputKeyPress(e) {
+            if (e.keyCode === 13 && lib_1.getValue(this.ui.input)) return this.onNewClicked();
+            if (lib_1.getValue(this.ui.input)) this.ui.btn.removeAttribute('disabled');else this.ui.btn.setAttribute('disabled', 'disabled');
         }
     }, {
         key: "onTodoItemClicked",
         value: function onTodoItemClicked(e) {
-            console.log('done');
             // This should be way more simple, when implementing: https://github.com/kildevaeld/view.extras/issues/1
             var id = e.delegateTarget.parentElement.getAttribute('data-id');
             var model = this.collection.find(function (m) {
@@ -788,9 +791,15 @@ var TodoListView = function (_lib_1$Mixins$ViewTem) {
 
     return TodoListView;
 }(lib_1.Mixins.ViewTemplate(lib_1.Mixins.ViewElement(BaseTodoListView)));
-
-__decorate([view_1.event.click('button.add-btn'), __metadata("design:type", Function), __metadata("design:paramtypes", []), __metadata("design:returntype", void 0)], TodoListView.prototype, "onNewClicked", null);
+__decorate([view_1.event.click('@btn'), __metadata("design:type", Function), __metadata("design:paramtypes", []), __metadata("design:returntype", void 0)], TodoListView.prototype, "onNewClicked", null);
+__decorate([view_1.event('keyup', '@input'), __metadata("design:type", Function), __metadata("design:paramtypes", [KeyboardEvent]), __metadata("design:returntype", void 0)], TodoListView.prototype, "onInputKeyPress", null);
 __decorate([view_1.event.click('li button'), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], TodoListView.prototype, "onTodoItemClicked", null);
+TodoListView = __decorate([view_1.attributes({
+    ui: {
+        input: 'input',
+        btn: 'button.add-btn'
+    }
+})], TodoListView);
 exports.TodoListView = TodoListView;
 window.onload = function () {
     var view = new TodoListView();
@@ -1338,6 +1347,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var view_1 = __webpack_require__(0);
+var utils_1 = __webpack_require__(20);
 var singleTag = /^<([a-z][^\/\0>:\x20\t\r\n\f]*)[\x20\t\r\n\f]*\/?>(?:<\/\1>|)$/i,
     slice = Array.prototype.slice;
 function parseHTML(html) {
@@ -1513,6 +1523,16 @@ var Html = function () {
             }
             return this.forEach(function (e) {
                 return e.innerHTML = _html;
+            });
+        }
+    }, {
+        key: "val",
+        value: function val(_val) {
+            if (arguments.length === 0) {
+                return this.length > 0 ? utils_1.getValue(this.get(0)) : null;
+            }
+            return this.forEach(function (e) {
+                return utils_1.setValue(e, _val);
             });
         }
     }, {

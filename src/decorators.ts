@@ -32,7 +32,6 @@ function setter<T extends Model, U>(target: T, prop: PropertyKey) {
         throw new TypeError("Target must be a EventEmitter")
     }
 
-
     return function $observableSetter(this: T, value: U) {
         if (this instanceof Model) {
             return this.set(prop, value)

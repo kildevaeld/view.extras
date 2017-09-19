@@ -58,6 +58,8 @@ export interface IViewTemplate {
     getTemplateData(): any;
     renderTemplate(): void;
 }
+export interface IViewModel {
+}
 export interface ICollection<T> {
     length: number;
     item(index: number): T | undefined;

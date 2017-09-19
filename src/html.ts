@@ -1,4 +1,5 @@
-import { isObject } from 'view'
+import { isObject } from 'view';
+import { getValue, setValue } from './utils';
 
 const singleTag = /^<([a-z][^\/\0>:\x20\t\r\n\f]*)[\x20\t\r\n\f]*\/?>(?:<\/\1>|)$/i,
     slice = Array.prototype.slice;
@@ -174,6 +175,15 @@ export class Html implements Iterable<Element> {
         return this.forEach(e => e.innerHTML = html);
     }
 
+    val(): string;
+    val(val: any): Html;
+    val(val?: any): any {
+        if (arguments.length === 0) {
+            return this.length > 0 ? getValue(this.get(0)) : null;
+        }
+        return this.forEach(e => setValue(e, val));
+    }
+
     css(attr: string | any, value?: any) {
         if (arguments.length === 2) {
             return this.forEach(e => {
@@ -182,7 +192,6 @@ export class Html implements Iterable<Element> {
         } else {
             return this.forEach(e => {
                 for (let k in attr) {
-
                     if (k in e.style) e.style[k] = String(attr[k]);
                 }
             });

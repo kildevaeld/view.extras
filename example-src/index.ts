@@ -1,9 +1,12 @@
 import {
     CollectionView, ArrayCollection, TemplateView, Model, property, Mixins,
-    IViewTemplate, IViewElement
+    IViewTemplate, IViewElement, getValue, setValue, html
 } from '../lib';
 import { uniqueId, attributes, event, DelegateEvent } from 'view';
 
+
+// It isn't really necessary to use a model in 
+// this implemnentation.
 export class TodoModel extends Model {
     @property id: string = uniqueId();
     @property title: string;
@@ -33,12 +36,13 @@ export class TodoListItemView extends TemplateView {
 
 
 export class BaseTodoListView extends CollectionView<TodoModel, TodoListItemView> { }
-/*
+
 @attributes({
-    events: {
-        'click button.add-btn': 'onNewClicked'
+    ui: {
+        input: 'input',
+        btn: 'button.add-btn'
     }
-})*/
+})
 export class TodoListView extends Mixins.ViewTemplate(Mixins.ViewElement(BaseTodoListView)) implements IViewTemplate, IViewElement {
     childView = TodoListItemView;
     collection: ArrayCollection<TodoModel> = new ArrayCollection();
@@ -46,19 +50,34 @@ export class TodoListView extends Mixins.ViewTemplate(Mixins.ViewElement(BaseTod
 
     template = _ => `
         <div>
-            <button class="add-btn">New Todo</button>
+            <div>
+                <input type="text" />
+                <button class="add-btn" disabled>New Todo</button>
+            </div>
             <ul></ul>
         </div>`
 
-    @event.click('button.add-btn')
+    @event.click('@btn')
     onNewClicked() {
-        this.collection.push(new TodoModel(`Todo ${this.collection.length}`));
+        this.collection.push(new TodoModel(getValue(this.ui.input) as string));
+        setValue(this.ui.input, null);
+        this.ui.btn.setAttribute('disabled', 'disabled');
+        this.ui.input.focus();
+
+    }
+
+    @event('keyup', '@input')
+    onInputKeyPress(e: KeyboardEvent) {
+        if (e.keyCode === 13 && getValue(this.ui.input))
+            return this.onNewClicked();
+        if (getValue(this.ui.input))
+            this.ui.btn.removeAttribute('disabled');
+        else this.ui.btn.setAttribute('disabled', 'disabled');
     }
 
 
     @event.click('li button')
     onTodoItemClicked(e: DelegateEvent) {
-        console.log('done')
         // This should be way more simple, when implementing: https://github.com/kildevaeld/view.extras/issues/1
         let id = e.delegateTarget.parentElement!.getAttribute('data-id');
         let model = this.collection.find(m => m.id === id);

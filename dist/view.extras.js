@@ -250,7 +250,7 @@ function __export(m) {
     }
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(7));
+__export(__webpack_require__(8));
 __export(__webpack_require__(20));
 __export(__webpack_require__(3));
 
@@ -272,7 +272,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var equaljs_1 = __webpack_require__(6);
+var equaljs_1 = __webpack_require__(7);
 var types_1 = __webpack_require__(1);
 var event_emitter_1 = __webpack_require__(2);
 
@@ -337,6 +337,98 @@ exports.Model = Model;
 
 /***/ }),
 /* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function isPropertyKey(a) {
+    return (typeof a === "undefined" ? "undefined" : _typeof(a)) === 'symbol' || typeof a === 'number' || typeof a === 'string';
+}
+exports.isPropertyKey = isPropertyKey;
+/**
+ * Get value from HTML Elemement
+ *
+ * @export
+ * @param {HTMLElement} el
+ * @param {boolean} [coerce=false]
+ * @returns
+ */
+function getValue(el) {
+    var coerce = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+    var tagName = el.tagName.toLocaleLowerCase(),
+        type = el.type,
+        isInput = tagName,
+        isCheckbox = /checkbox/.test(type),
+        isSelect = /select/.test(el.nodeName);
+    if (isCheckbox) {
+        Boolean(el.checked);
+    } else if (isSelect) {
+        if (!coerce) return el.value || '';
+        var option = el.options[el.selectedIndex];
+        return { value: option.value, text: option.innerText };
+    } else if (isInput) {
+        var input = el;
+        var _type = input.type;
+        switch (_type) {
+            case "number":
+                return coerce ? 'valueAsNumber' in input ? input.valueAsNumber : parseInt(input.value) : input.value;
+            case "date":
+                return coerce ? 'valueAsDate' in input ? input.valueAsDate : new Date(input.value) : input.value;
+            default:
+                return input.value;
+        }
+    }
+    return el.textContent;
+}
+exports.getValue = getValue;
+/**
+ * Set value on an HTMLElmenet
+ *
+ * @export
+ * @param {HTMLElement} el
+ * @param {*} [value]
+ */
+function setValue(el, value) {
+    var tagName = el.tagName.toLocaleLowerCase(),
+        type = el.type,
+        isInput = tagName,
+        isCheckbox = /checkbox/.test(type),
+        isRadio = /radio/.test(type),
+        isRadioOrCheckbox = isRadio || isCheckbox,
+        isSelect = /select/.test(el.nodeName);
+    if (value == null) {
+        value = "";
+    }
+    if (isRadioOrCheckbox) {
+        if (isRadio) {
+            if (String(value) === String(el.value)) {
+                el.checked = true;
+            }
+        } else {
+            el.checked = value;
+        }
+    } else if (String(value) !== getValue(el)) {
+        if (isInput || isSelect) {
+            el.value = value;
+        } else {
+            el.innerHTML = value;
+        }
+    }
+}
+exports.setValue = setValue;
+var _slice = Array.prototype.slice;
+function slice(a, index, end) {
+    return _slice.call(a, index, end);
+}
+exports.slice = slice;
+
+/***/ }),
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -441,7 +533,7 @@ function eq(a, b, aStack, bStack) {
 ;
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -606,7 +698,7 @@ exports.EventEmitter = EventEmitter;
 })(EventEmitter = exports.EventEmitter || (exports.EventEmitter = {}));
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -788,7 +880,7 @@ var ArrayCollection = function (_event_emitter_1$Even) {
 exports.ArrayCollection = ArrayCollection;
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1009,7 +1101,7 @@ var CollectionView = function (_BaseCollectionView) {
 exports.CollectionView = CollectionView;
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1048,7 +1140,7 @@ var Controller = function (_view_1$AbstractView) {
 exports.Controller = Controller;
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1058,7 +1150,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var model_1 = __webpack_require__(5);
-var equaljs_1 = __webpack_require__(6);
+var equaljs_1 = __webpack_require__(7);
 /**
  * Mount a view on the target and bind matched element
  *
@@ -1130,7 +1222,7 @@ function property(target, prop, descriptor) {
 exports.property = property;
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1146,6 +1238,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var view_1 = __webpack_require__(0);
+var utils_1 = __webpack_require__(6);
 var singleTag = /^<([a-z][^\/\0>:\x20\t\r\n\f]*)[\x20\t\r\n\f]*\/?>(?:<\/\1>|)$/i,
     slice = Array.prototype.slice;
 function parseHTML(html) {
@@ -1324,6 +1417,16 @@ var Html = function () {
             });
         }
     }, {
+        key: "val",
+        value: function val(_val) {
+            if (arguments.length === 0) {
+                return this.length > 0 ? utils_1.getValue(this.get(0)) : null;
+            }
+            return this.forEach(function (e) {
+                return utils_1.setValue(e, _val);
+            });
+        }
+    }, {
         key: "css",
         value: function css(attr, value) {
             if (arguments.length === 2) {
@@ -1470,7 +1573,7 @@ function html(query, context) {
 exports.html = html;
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1486,98 +1589,6 @@ __export(__webpack_require__(17));
 __export(__webpack_require__(18));
 __export(__webpack_require__(19));
 __export(__webpack_require__(16));
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-Object.defineProperty(exports, "__esModule", { value: true });
-function isPropertyKey(a) {
-    return (typeof a === "undefined" ? "undefined" : _typeof(a)) === 'symbol' || typeof a === 'number' || typeof a === 'string';
-}
-exports.isPropertyKey = isPropertyKey;
-/**
- * Get value from HTML Elemement
- *
- * @export
- * @param {HTMLElement} el
- * @param {boolean} [coerce=false]
- * @returns
- */
-function getValue(el) {
-    var coerce = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-
-    var tagName = el.tagName.toLocaleLowerCase(),
-        type = el.type,
-        isInput = tagName,
-        isCheckbox = /checkbox/.test(type),
-        isSelect = /select/.test(el.nodeName);
-    if (isCheckbox) {
-        Boolean(el.checked);
-    } else if (isSelect) {
-        if (!coerce) return el.value || '';
-        var option = el.options[el.selectedIndex];
-        return { value: option.value, text: option.innerText };
-    } else if (isInput) {
-        var input = el;
-        var _type = input.type;
-        switch (_type) {
-            case "number":
-                return coerce ? 'valueAsNumber' in input ? input.valueAsNumber : parseInt(input.value) : input.value;
-            case "date":
-                return coerce ? 'valueAsDate' in input ? input.valueAsDate : new Date(input.value) : input.value;
-            default:
-                return input.value;
-        }
-    }
-    return el.textContent;
-}
-exports.getValue = getValue;
-/**
- * Set value on an HTMLElmenet
- *
- * @export
- * @param {HTMLElement} el
- * @param {*} [value]
- */
-function setValue(el, value) {
-    var tagName = el.tagName.toLocaleLowerCase(),
-        type = el.type,
-        isInput = tagName,
-        isCheckbox = /checkbox/.test(type),
-        isRadio = /radio/.test(type),
-        isRadioOrCheckbox = isRadio || isCheckbox,
-        isSelect = /select/.test(el.nodeName);
-    if (value == null) {
-        value = "";
-    }
-    if (isRadioOrCheckbox) {
-        if (isRadio) {
-            if (String(value) === String(el.value)) {
-                el.checked = true;
-            }
-        } else {
-            el.checked = value;
-        }
-    } else if (String(value) !== getValue(el)) {
-        if (isInput || isSelect) {
-            el.value = value;
-        } else {
-            el.innerHTML = value;
-        }
-    }
-}
-exports.setValue = setValue;
-var _slice = Array.prototype.slice;
-function slice(a, index, end) {
-    return _slice.call(a, index, end);
-}
-exports.slice = slice;
 
 /***/ }),
 /* 15 */
@@ -1598,17 +1609,17 @@ function __export(m) {
     }
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-var Mixins = __webpack_require__(13);
+var Mixins = __webpack_require__(14);
 exports.Mixins = Mixins;
 __export(__webpack_require__(1));
-__export(__webpack_require__(8));
 __export(__webpack_require__(9));
-__export(__webpack_require__(11));
-__export(__webpack_require__(5));
-__export(__webpack_require__(2));
-__export(__webpack_require__(14));
 __export(__webpack_require__(10));
 __export(__webpack_require__(12));
+__export(__webpack_require__(5));
+__export(__webpack_require__(2));
+__export(__webpack_require__(6));
+__export(__webpack_require__(11));
+__export(__webpack_require__(13));
 var types_1 = __webpack_require__(1);
 var view_1 = __webpack_require__(0);
 function create(View, element) {
@@ -2002,7 +2013,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var event_emitter_1 = __webpack_require__(7);
+var event_emitter_1 = __webpack_require__(8);
 var helpers_1 = __webpack_require__(3);
 function EventListener(Base) {
     return function (_Base) {

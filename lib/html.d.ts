@@ -21,6 +21,8 @@ export declare class Html implements Iterable<Element> {
     text(str: string): Html;
     html(): string;
     html(html: string): Html;
+    val(): string;
+    val(val: any): Html;
     css(attr: string | any, value?: any): Html;
     parent(): Html;
     remove(): Html;
