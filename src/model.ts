@@ -21,7 +21,7 @@ export class Model extends EventEmitter {
         this[MetaKeys.Attributes] = new Map<PropertyKey, any>();
     }
 
-    //set<U>(key: PropertyDecorator, value: U)
+
     set<U>(key: PropertyKey | { [key: string]: any }, value?: U | ModelSetOptions, options?: ModelSetOptions) {
 
         let values: { [key: string]: any };

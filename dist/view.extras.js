@@ -168,8 +168,6 @@ var Model = function (_event_emitter_1$Even) {
         _this[types_1.MetaKeys.Attributes] = new Map();
         return _this;
     }
-    //set<U>(key: PropertyDecorator, value: U)
-
 
     _createClass(Model, [{
         key: "set",
@@ -2243,7 +2241,6 @@ function restCollection(Base) {
                 var model = types_1.Invoker.get(this.Model);
                 model.set(data, { silent: true });
                 model.rootUrl = this.url;
-                console.log(model);
                 return model;
             }
         }, {

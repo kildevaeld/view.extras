@@ -30,8 +30,6 @@ export function restCollection<T extends Constructor<ArrayCollection<E>>, E exte
 
         get url() { return this._rootUrl; }
 
-
-
         fetch(): Promise<E[]> {
             triggerMethodOn(this, 'will:fetch');
             return FetchRequest("GET", this.url)
@@ -77,11 +75,10 @@ export function restCollection<T extends Constructor<ArrayCollection<E>>, E exte
                 data = data.toJSON();
             }
 
-
             const model = Invoker.get(this.Model);
             model.set(data, { silent: true });
             model.rootUrl = this.url;
-            console.log(model)
+
             return model;
         }
 
