@@ -1,22 +1,24 @@
 import {
     CollectionView, ArrayCollection, TemplateView, Model, property, Mixins,
-    IViewTemplate, IViewElement, getValue, setValue, html
+    IViewTemplate, IViewElement, getValue, setValue, html,
 } from '../lib';
+import { RestCollection, RestModel } from '../lib';
 import { uniqueId, attributes, event, DelegateEvent } from 'view';
-
 
 // It isn't really necessary to use a model in 
 // this implemnentation.
-export class TodoModel extends Model {
-    @property id: string = uniqueId();
+export class TodoModel extends RestModel {
+    //@property id: string = uniqueId();
     @property title: string;
     @property done: boolean = false
 
-    constructor(title: string) {
+    constructor(title?: string) {
         super()
-        this.title = title;
+        if (title)
+            this.title = title;
     }
 }
+
 
 @attributes({
     tagName: 'li'
@@ -45,7 +47,10 @@ export class BaseTodoListView extends CollectionView<TodoModel, TodoListItemView
 })
 export class TodoListView extends Mixins.ViewTemplate(Mixins.ViewElement(BaseTodoListView)) implements IViewTemplate, IViewElement {
     childView = TodoListItemView;
-    collection: ArrayCollection<TodoModel> = new ArrayCollection();
+    collection: RestCollection<TodoModel> = new RestCollection({
+        url: "/api/todos",
+        Model: TodoModel
+    });
     childViewContainer = "ul";
 
     template = _ => `
@@ -59,7 +64,7 @@ export class TodoListView extends Mixins.ViewTemplate(Mixins.ViewElement(BaseTod
 
     @event.click('@btn')
     onNewClicked() {
-        this.collection.push(new TodoModel(getValue(this.ui.input) as string));
+        this.collection.create(new TodoModel(getValue(this.ui.input) as string));
         setValue(this.ui.input, null);
         this.ui.btn.setAttribute('disabled', 'disabled');
         this.ui.input.focus();
@@ -84,7 +89,7 @@ export class TodoListView extends Mixins.ViewTemplate(Mixins.ViewElement(BaseTod
 
         if (!model) throw new Error(`could not find model with id: ${id}`);
         model.done = !model.done;
-
+        model.save();
         this.childViews.find(m => m.data.id == id).render();
     }
 
@@ -93,4 +98,5 @@ export class TodoListView extends Mixins.ViewTemplate(Mixins.ViewElement(BaseTod
 window.onload = () => {
     let view = new TodoListView();
     document.body.appendChild(view.render().el);
+    view.collection.fetch();
 };

@@ -19,6 +19,7 @@
     "gulp-typescript": "^3.2.2",
     "gulp-util": "^3.0.8",
     "koa": "^2.3.0",
+    "koa-body": "^2.5.0",
     "mocha": "^3.5.0",
     "mz": "^2.7.0",
     "orange.dom": "github:kildevaeld/orange.dom",
@@ -27,6 +28,7 @@
     "sinon": "^2.4.1",
     "ts-loader": "^2.3.4",
     "typescript": "^2.5.2",
+    "uuid": "^3.1.0",
     "webpack": "^2.7.0"
   },
   "author": "Rasmus Kildevæld <rasmuskildevaeld@gmail.com>",

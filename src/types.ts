@@ -1,12 +1,12 @@
 
-import { IView, Constructor, isFunction } from 'view';
+import { Constructor, isFunction } from 'view';
 
 export interface IInvoker {
     get<T>(key: any): T
 }
 
 export var Invoker = {
-    get<T extends IView>(V: Constructor<T>): T {
+    get<T>(V: Constructor<T>): T {
         return Reflect.construct(V, []);
     }
 }

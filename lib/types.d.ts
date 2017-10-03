@@ -1,9 +1,9 @@
-import { IView, Constructor } from 'view';
+import { Constructor } from 'view';
 export interface IInvoker {
     get<T>(key: any): T;
 }
 export declare var Invoker: {
-    get<T extends IView>(V: Constructor<T>): T;
+    get<T>(V: Constructor<T>): T;
 };
 export declare function setInvoker(i: IInvoker): void;
 export interface IViewMountable {

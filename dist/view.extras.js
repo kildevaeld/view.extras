@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 15);
+/******/ 	return __webpack_require__(__webpack_require__.s = 18);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -138,130 +138,9 @@ exports.isDestroyable = isDestroyable;
 "use strict";
 
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var mixins_events_1 = __webpack_require__(4);
-// Typescript typesystem quirk.
-
-var EventEmitterBase = function EventEmitterBase() {
-  _classCallCheck(this, EventEmitterBase);
-};
-
-exports.EventEmitterBase = EventEmitterBase;
-
-var EventEmitter = function (_mixins_events_1$Even) {
-  _inherits(EventEmitter, _mixins_events_1$Even);
-
-  function EventEmitter() {
-    _classCallCheck(this, EventEmitter);
-
-    return _possibleConstructorReturn(this, (EventEmitter.__proto__ || Object.getPrototypeOf(EventEmitter)).apply(this, arguments));
-  }
-
-  return EventEmitter;
-}(mixins_events_1.EventEmitter(EventEmitterBase));
-
-exports.EventEmitter = EventEmitter;
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", { value: true });
-function callFunc(fn) {
-    var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-
-    var l = fn.length,
-        i = -1,
-        a1 = args[0],
-        a2 = args[1],
-        a3 = args[2],
-        a4 = args[3],
-        a5 = args[4];
-    switch (args.length) {
-        case 0:
-            while (++i < l) {
-                fn[i].handler.call(fn[i].ctx);
-            }return;
-        case 1:
-            while (++i < l) {
-                fn[i].handler.call(fn[i].ctx, a1);
-            }return;
-        case 2:
-            while (++i < l) {
-                fn[i].handler.call(fn[i].ctx, a1, a2);
-            }return;
-        case 3:
-            while (++i < l) {
-                fn[i].handler.call(fn[i].ctx, a1, a2, a3);
-            }return;
-        case 4:
-            while (++i < l) {
-                fn[i].handler.call(fn[i].ctx, a1, a2, a3, a4);
-            }return;
-        case 5:
-            while (++i < l) {
-                fn[i].handler.call(fn[i].ctx, a1, a2, a3, a4, a5);
-            }return;
-        default:
-            while (++i < l) {
-                fn[i].handler.apply(fn[i].ctx, args);
-            }return;
-    }
-}
-exports.callFunc = callFunc;
-var idCounter = 0;
-function uniqueId() {
-    var prefix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
-
-    return prefix + ++idCounter;
-}
-exports.uniqueId = uniqueId;
-function isFunction(a) {
-    return typeof a === 'function';
-}
-function isEventEmitter(a) {
-    return a && isFunction(a.on) && isFunction(a.once) && isFunction(a.off) && isFunction(a.trigger);
-}
-exports.isEventEmitter = isEventEmitter;
-function IsEventListener(a) {
-    return a && isFunction(a.listenTo) && isFunction(a.listenToOnce) && isFunction(a.stopListening);
-}
-exports.IsEventListener = IsEventListener;
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-function __export(m) {
-    for (var p in m) {
-        if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-    }
-}
-Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(8));
-__export(__webpack_require__(20));
-__export(__webpack_require__(3));
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -272,9 +151,10 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var equaljs_1 = __webpack_require__(7);
+var equaljs_1 = __webpack_require__(10);
 var types_1 = __webpack_require__(1);
-var event_emitter_1 = __webpack_require__(2);
+var event_emitter_1 = __webpack_require__(3);
+var utils_1 = __webpack_require__(4);
 
 var Model = function (_event_emitter_1$Even) {
     _inherits(Model, _event_emitter_1$Even);
@@ -284,21 +164,41 @@ var Model = function (_event_emitter_1$Even) {
 
         var _this = _possibleConstructorReturn(this, (Model.__proto__ || Object.getPrototypeOf(Model)).call(this));
 
+        _this.lastChanged = {};
         _this[types_1.MetaKeys.Attributes] = new Map();
         return _this;
     }
+    //set<U>(key: PropertyDecorator, value: U)
+
 
     _createClass(Model, [{
         key: "set",
         value: function set(key, value, options) {
-            var old = this.get(key);
-            if (equaljs_1.equal(old, value)) {
-                return this;
+            var values = void 0;
+            if (utils_1.isPropertyKey(key)) {
+                if (arguments.length == 1) throw new TypeError('invalid arguments');
+                values = _defineProperty({}, "" + key, value);
+            } else {
+                values = key;
+                options = value;
             }
-            this[types_1.MetaKeys.Attributes].set(key, value);
-            if (options && options.silent) return;
-            this.trigger("change:" + key, old, value);
-            this.trigger('change', _defineProperty({}, key, value));
+            options = options || {};
+            var changes = {};
+            for (var _key in values) {
+                var old = this.get(_key),
+                    _value = values[_key];
+                if (equaljs_1.equal(old, _value)) {
+                    continue;
+                }
+                this[types_1.MetaKeys.Attributes].set(_key, _value);
+                changes[_key] = [old, _value];
+            }
+            this.lastChanged = changes;
+            if (options.silent) return;
+            for (var _key2 in changes) {
+                this.trigger.apply(this, ["change:" + _key2].concat(_toConsumableArray(changes[_key2])));
+            }
+            this.trigger('change', Object.assign({}, changes));
         }
     }, {
         key: "get",
@@ -336,7 +236,44 @@ var Model = function (_event_emitter_1$Even) {
 exports.Model = Model;
 
 /***/ }),
-/* 6 */
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var mixins_events_1 = __webpack_require__(6);
+// Typescript typesystem quirk.
+
+var EventEmitterBase = function EventEmitterBase() {
+  _classCallCheck(this, EventEmitterBase);
+};
+
+exports.EventEmitterBase = EventEmitterBase;
+
+var EventEmitter = function (_mixins_events_1$Even) {
+  _inherits(EventEmitter, _mixins_events_1$Even);
+
+  function EventEmitter() {
+    _classCallCheck(this, EventEmitter);
+
+    return _possibleConstructorReturn(this, (EventEmitter.__proto__ || Object.getPrototypeOf(EventEmitter)).apply(this, arguments));
+  }
+
+  return EventEmitter;
+}(mixins_events_1.EventEmitter(EventEmitterBase));
+
+exports.EventEmitter = EventEmitter;
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -428,277 +365,93 @@ function slice(a, index, end) {
 exports.slice = slice;
 
 /***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function callFunc(fn) {
+    var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+    var l = fn.length,
+        i = -1,
+        a1 = args[0],
+        a2 = args[1],
+        a3 = args[2],
+        a4 = args[3],
+        a5 = args[4];
+    switch (args.length) {
+        case 0:
+            while (++i < l) {
+                fn[i].handler.call(fn[i].ctx);
+            }return;
+        case 1:
+            while (++i < l) {
+                fn[i].handler.call(fn[i].ctx, a1);
+            }return;
+        case 2:
+            while (++i < l) {
+                fn[i].handler.call(fn[i].ctx, a1, a2);
+            }return;
+        case 3:
+            while (++i < l) {
+                fn[i].handler.call(fn[i].ctx, a1, a2, a3);
+            }return;
+        case 4:
+            while (++i < l) {
+                fn[i].handler.call(fn[i].ctx, a1, a2, a3, a4);
+            }return;
+        case 5:
+            while (++i < l) {
+                fn[i].handler.call(fn[i].ctx, a1, a2, a3, a4, a5);
+            }return;
+        default:
+            while (++i < l) {
+                fn[i].handler.apply(fn[i].ctx, args);
+            }return;
+    }
+}
+exports.callFunc = callFunc;
+var idCounter = 0;
+function uniqueId() {
+    var prefix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+
+    return prefix + ++idCounter;
+}
+exports.uniqueId = uniqueId;
+function isFunction(a) {
+    return typeof a === 'function';
+}
+function isEventEmitter(a) {
+    return a && isFunction(a.on) && isFunction(a.once) && isFunction(a.off) && isFunction(a.trigger);
+}
+exports.isEventEmitter = isEventEmitter;
+function IsEventListener(a) {
+    return a && isFunction(a.listenTo) && isFunction(a.listenToOnce) && isFunction(a.stopListening);
+}
+exports.IsEventListener = IsEventListener;
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function __export(m) {
+    for (var p in m) {
+        if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+    }
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__(11));
+__export(__webpack_require__(24));
+__export(__webpack_require__(5));
+
+/***/ }),
 /* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-Object.defineProperty(exports, "__esModule", { value: true });
-function equal(a, b) {
-    return eq(a, b, [], []);
-}
-exports.equal = equal;
-var _has = Object.prototype.hasOwnProperty;
-var toString = Object.prototype.toString;
-function eq(a, b, aStack, bStack) {
-    // Identical objects are equal. `0 === -0`, but they aren't identical.
-    // See the [Harmony `egal` proposal](http://wiki.ecmascript.org/doku.php?id=harmony:egal).
-    if (a === b) return a !== 0 || 1 / a == 1 / b;
-    // A strict comparison is necessary because `null == undefined`.
-    if (a == null || b == null) return a === b;
-    // Unwrap any wrapped objects.
-    //if (a instanceof _) a = a._wrapped;
-    //if (b instanceof _) b = b._wrapped;
-    // Compare `[[Class]]` names.
-    var className = toString.call(a);
-    if (className != toString.call(b)) return false;
-    switch (className) {
-        // Strings, numbers, dates, and booleans are compared by value.
-        case '[object String]':
-            // Primitives and their corresponding object wrappers are equivalent; thus, `"5"` is
-            // equivalent to `new String("5")`.
-            return a == String(b);
-        case '[object Number]':
-            // `NaN`s are equivalent, but non-reflexive. An `egal` comparison is performed for
-            // other numeric values.
-            return a !== +a ? b !== +b : a === 0 ? 1 / a === 1 / b : a === +b;
-        case '[object Date]':
-        case '[object Boolean]':
-            // Coerce dates and booleans to numeric primitive values. Dates are compared by their
-            // millisecond representations. Note that invalid dates with millisecond representations
-            // of `NaN` are not equivalent.
-            return +a == +b;
-        // RegExps are compared by their source patterns and flags.
-        case '[object RegExp]':
-            return a.source == b.source && a.global == b.global && a.multiline == b.multiline && a.ignoreCase == b.ignoreCase;
-    }
-    if ((typeof a === "undefined" ? "undefined" : _typeof(a)) != 'object' || (typeof b === "undefined" ? "undefined" : _typeof(b)) != 'object') return false;
-    // Assume equality for cyclic structures. The algorithm for detecting cyclic
-    // structures is adapted from ES 5.1 section 15.12.3, abstract operation `JO`.
-    var length = aStack.length;
-    while (length--) {
-        // Linear search. Performance is inversely proportional to the number of
-        // unique nested structures.
-        if (aStack[length] == a) return bStack[length] == b;
-    }
-    // Objects with different constructors are not equivalent, but `Object`s
-    // from different frames are.
-    var aCtor = a.constructor,
-        bCtor = b.constructor;
-    if (aCtor !== bCtor && !(typeof aCtor === 'function' && aCtor instanceof aCtor && typeof bCtor === 'function' && bCtor instanceof bCtor)) {
-        return false;
-    }
-    // Add the first object to the stack of traversed objects.
-    aStack.push(a);
-    bStack.push(b);
-    var size = 0,
-        result = true;
-    // Recursively compare objects and arrays.
-    if (className === '[object Array]') {
-        // Compare array lengths to determine if a deep comparison is necessary.
-        size = a.length;
-        result = size === b.length;
-        if (result) {
-            // Deep compare the contents, ignoring non-numeric properties.
-            while (size--) {
-                if (!(result = eq(a[size], b[size], aStack, bStack))) break;
-            }
-        }
-    } else {
-        // Deep compare objects.
-        for (var key in a) {
-            if (_has.call(a, key)) {
-                // Count the expected number of properties.
-                size++;
-                // Deep compare each member.
-                if (!(result = _has.call(b, key) && eq(a[key], b[key], aStack, bStack))) break;
-            }
-        }
-        // Ensure that both objects contain the same number of properties.
-        if (result) {
-            for (key in b) {
-                if (_has.call(b, key) && !size--) break;
-            }
-            result = !size;
-        }
-    }
-    // Remove the first object from the stack of traversed objects.
-    aStack.pop();
-    bStack.pop();
-    return result;
-}
-;
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var helpers_1 = __webpack_require__(3);
-function removeFromListener(listeners, fn, ctx) {
-    for (var i = 0; i < listeners.length; i++) {
-        var e = listeners[i];
-        if (fn == null && ctx != null && e.ctx === ctx || fn != null && ctx == null && e.handler === fn || fn != null && ctx != null && e.handler === fn && e.ctx === ctx) {
-            listeners.splice(i, 1);
-        }
-    }
-    return listeners;
-}
-/**
- * Makes target, Base, an EventEmitter
- *
- * @export
- * @param {T} Base
- * @template
- * @returns {(Constructor<IEventEmitter> & T)}
- */
-function EventEmitter(Base) {
-    return function (_Base) {
-        _inherits(_class, _Base);
-
-        function _class() {
-            _classCallCheck(this, _class);
-
-            return _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).apply(this, arguments));
-        }
-
-        _createClass(_class, [{
-            key: "on",
-            value: function on(event, fn, ctx) {
-                var once = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
-
-                var events = (this._listeners || (this._listeners = new Map())).get(event) || [];
-                events.push({
-                    name: event,
-                    once: once,
-                    handler: fn,
-                    ctx: ctx || this
-                });
-                if (!this._listeners.has(event)) this._listeners.set(event, events);
-                return this;
-            }
-        }, {
-            key: "once",
-            value: function once(event, fn, ctx) {
-                return this.on(event, fn, ctx, true);
-            }
-        }, {
-            key: "off",
-            value: function off(eventName, fn, ctx) {
-                this._listeners = this._listeners || new Map();
-                if (eventName == null && ctx == null) {
-                    this._listeners = new Map();
-                } else if (this._listeners.has(eventName)) {
-                    var events = this._listeners.get(eventName);
-                    if (fn == null && ctx == null) {
-                        this._listeners.set(eventName, []);
-                    } else {
-                        removeFromListener(events, fn, ctx);
-                    }
-                } else {
-                    this._listeners.forEach(function (value) {
-                        removeFromListener(value, fn, ctx);
-                    });
-                    //this._listeners = new Map();
-                }
-                return this;
-            }
-        }, {
-            key: "trigger",
-            value: function trigger(eventName) {
-                this._listeners = this._listeners || new Map();
-                var events = (this._listeners.get(eventName) || []).concat(this._listeners.get("*") || []);
-                var event = void 0,
-                    a = void 0,
-                    index = void 0;
-                var calls = [];
-                var alls = [];
-
-                for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-                    args[_key - 1] = arguments[_key];
-                }
-
-                for (var i = 0, ii = events.length; i < ii; i++) {
-                    event = events[i];
-                    a = args;
-                    if (events[i].name === '*') {
-                        alls.push(events[i]);
-                    } else {
-                        calls.push(events[i]);
-                    }
-                    if (events[i].once === true) {
-                        index = this._listeners.get(events[i].name).indexOf(events[i]);
-                        this._listeners.get(events[i].name).splice(index, 1);
-                    }
-                }
-                if (alls.length) {
-                    var _a = [eventName].concat(args);
-                    this._executeListener(alls, _a);
-                }
-                if (calls.length) this._executeListener(calls, args);else if (eventName === 'error' && EventEmitter.throwOnError) {
-                    if (args.length) {
-                        var _a2 = args[0];
-                        if (!(_a2 instanceof Error)) {
-                            _a2 = new Error(String(_a2));
-                        }
-                        EventEmitter.throwError(_a2);
-                    }
-                }
-                return this;
-            }
-        }, {
-            key: "destroy",
-            value: function destroy() {
-                if (typeof Base.prototype.destroy === 'function') Base.prototype.destroy.call(this);
-                this.off();
-            }
-        }, {
-            key: "_executeListener",
-            value: function _executeListener(func, args) {
-                EventEmitter.executeListenerFunction(func, args);
-            }
-        }, {
-            key: "listeners",
-            get: function get() {
-                return this._listeners;
-            }
-        }]);
-
-        return _class;
-    }(Base);
-}
-exports.EventEmitter = EventEmitter;
-(function (EventEmitter) {
-    /**
-     * If true EventEmitter will call throwError, when when no listeners for the "error" event
-     */
-    EventEmitter.throwOnError = false;
-    function throwError(error) {
-        throw error;
-    }
-    EventEmitter.throwError = throwError;
-    function executeListenerFunction(func, args) {
-        helpers_1.callFunc(func, args);
-    }
-    EventEmitter.executeListenerFunction = executeListenerFunction;
-})(EventEmitter = exports.EventEmitter || (exports.EventEmitter = {}));
-
-/***/ }),
-/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -716,7 +469,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var types_1 = __webpack_require__(1);
-var event_emitter_1 = __webpack_require__(2);
+var event_emitter_1 = __webpack_require__(3);
 
 var ArrayCollection = function (_event_emitter_1$Even) {
     _inherits(ArrayCollection, _event_emitter_1$Even);
@@ -880,7 +633,404 @@ var ArrayCollection = function (_event_emitter_1$Even) {
 exports.ArrayCollection = ArrayCollection;
 
 /***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.FetchRequest = function (method, url, data) {
+    return fetch(url, {
+        method: method,
+        body: data && ~['POST', 'PUT', 'PATCH'].indexOf(method) ? JSON.stringify(data) : void 0
+    }).then(function (m) {
+        if (m.status > 100 && m.status <= 300) {
+            return m.json().then(function (json) {
+                return {
+                    headers: [].concat(_toConsumableArray(m.headers.entries())),
+                    status: m.status,
+                    body: json
+                };
+            });
+        }
+        return Promise.reject(new Error("error"));
+    });
+};
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var model_1 = __webpack_require__(2);
+var view_1 = __webpack_require__(0);
+var request_1 = __webpack_require__(8);
+
+var RestModel = function (_model_1$Model) {
+    _inherits(RestModel, _model_1$Model);
+
+    function RestModel() {
+        _classCallCheck(this, RestModel);
+
+        var _this = _possibleConstructorReturn(this, (RestModel.__proto__ || Object.getPrototypeOf(RestModel)).apply(this, arguments));
+
+        _this.idAttribute = "id";
+        return _this;
+    }
+
+    _createClass(RestModel, [{
+        key: "save",
+        value: function save() {
+            var _this2 = this;
+
+            view_1.triggerMethodOn(this, 'will:save');
+            var method = this.id ? this.updateMethod || 'PUT' : 'POST';
+            var data = this.toJSON();
+            if (method === "PATCH") {
+                var changes = this.lastChanged;
+                if (Object.keys(changes).length == 0) {
+                    return Promise.resolve();
+                }
+                data = {};
+                for (var k in changes) {
+                    data[k] = changes[k][1];
+                }
+            }
+            console.log('DATA', data);
+            return request_1.FetchRequest(method, this.getUrl(), data).then(function (resp) {
+                view_1.triggerMethodOn(_this2, 'save', resp);
+                var data = _this2.parse(resp);
+                _this2.set(data);
+            });
+        }
+    }, {
+        key: "fetch",
+        value: function fetch() {
+            var _this3 = this;
+
+            view_1.triggerMethodOn(this, 'will:fetch');
+            if (!this.id) {
+                return Promise.reject(new Error("no id"));
+            }
+            if (!this.rootUrl) return Promise.reject(new Error('no url'));
+            return request_1.FetchRequest("GET", this.getUrl()).then(function (m) {
+                var data = _this3.parse(m);
+                view_1.triggerMethodOn(_this3, 'fetch', data);
+                _this3.set(data);
+            });
+        }
+    }, {
+        key: "parse",
+        value: function parse(resp) {
+            return resp.body;
+        }
+    }, {
+        key: "getUrl",
+        value: function getUrl() {
+            var url = this.rootUrl;
+            if (!url) throw Error('no url');
+            if (url[url.length - 1] !== '/') url += '/';
+            if (this.id) url += this.id;
+            return url;
+        }
+    }, {
+        key: "id",
+        get: function get() {
+            return this.get(this.idAttribute);
+        }
+    }]);
+
+    return RestModel;
+}(model_1.Model);
+
+exports.RestModel = RestModel;
+
+/***/ }),
 /* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function equal(a, b) {
+    return eq(a, b, [], []);
+}
+exports.equal = equal;
+var _has = Object.prototype.hasOwnProperty;
+var toString = Object.prototype.toString;
+function eq(a, b, aStack, bStack) {
+    // Identical objects are equal. `0 === -0`, but they aren't identical.
+    // See the [Harmony `egal` proposal](http://wiki.ecmascript.org/doku.php?id=harmony:egal).
+    if (a === b) return a !== 0 || 1 / a == 1 / b;
+    // A strict comparison is necessary because `null == undefined`.
+    if (a == null || b == null) return a === b;
+    // Unwrap any wrapped objects.
+    //if (a instanceof _) a = a._wrapped;
+    //if (b instanceof _) b = b._wrapped;
+    // Compare `[[Class]]` names.
+    var className = toString.call(a);
+    if (className != toString.call(b)) return false;
+    switch (className) {
+        // Strings, numbers, dates, and booleans are compared by value.
+        case '[object String]':
+            // Primitives and their corresponding object wrappers are equivalent; thus, `"5"` is
+            // equivalent to `new String("5")`.
+            return a == String(b);
+        case '[object Number]':
+            // `NaN`s are equivalent, but non-reflexive. An `egal` comparison is performed for
+            // other numeric values.
+            return a !== +a ? b !== +b : a === 0 ? 1 / a === 1 / b : a === +b;
+        case '[object Date]':
+        case '[object Boolean]':
+            // Coerce dates and booleans to numeric primitive values. Dates are compared by their
+            // millisecond representations. Note that invalid dates with millisecond representations
+            // of `NaN` are not equivalent.
+            return +a == +b;
+        // RegExps are compared by their source patterns and flags.
+        case '[object RegExp]':
+            return a.source == b.source && a.global == b.global && a.multiline == b.multiline && a.ignoreCase == b.ignoreCase;
+    }
+    if ((typeof a === "undefined" ? "undefined" : _typeof(a)) != 'object' || (typeof b === "undefined" ? "undefined" : _typeof(b)) != 'object') return false;
+    // Assume equality for cyclic structures. The algorithm for detecting cyclic
+    // structures is adapted from ES 5.1 section 15.12.3, abstract operation `JO`.
+    var length = aStack.length;
+    while (length--) {
+        // Linear search. Performance is inversely proportional to the number of
+        // unique nested structures.
+        if (aStack[length] == a) return bStack[length] == b;
+    }
+    // Objects with different constructors are not equivalent, but `Object`s
+    // from different frames are.
+    var aCtor = a.constructor,
+        bCtor = b.constructor;
+    if (aCtor !== bCtor && !(typeof aCtor === 'function' && aCtor instanceof aCtor && typeof bCtor === 'function' && bCtor instanceof bCtor)) {
+        return false;
+    }
+    // Add the first object to the stack of traversed objects.
+    aStack.push(a);
+    bStack.push(b);
+    var size = 0,
+        result = true;
+    // Recursively compare objects and arrays.
+    if (className === '[object Array]') {
+        // Compare array lengths to determine if a deep comparison is necessary.
+        size = a.length;
+        result = size === b.length;
+        if (result) {
+            // Deep compare the contents, ignoring non-numeric properties.
+            while (size--) {
+                if (!(result = eq(a[size], b[size], aStack, bStack))) break;
+            }
+        }
+    } else {
+        // Deep compare objects.
+        for (var key in a) {
+            if (_has.call(a, key)) {
+                // Count the expected number of properties.
+                size++;
+                // Deep compare each member.
+                if (!(result = _has.call(b, key) && eq(a[key], b[key], aStack, bStack))) break;
+            }
+        }
+        // Ensure that both objects contain the same number of properties.
+        if (result) {
+            for (key in b) {
+                if (_has.call(b, key) && !size--) break;
+            }
+            result = !size;
+        }
+    }
+    // Remove the first object from the stack of traversed objects.
+    aStack.pop();
+    bStack.pop();
+    return result;
+}
+;
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var helpers_1 = __webpack_require__(5);
+function removeFromListener(listeners, fn, ctx) {
+    for (var i = 0; i < listeners.length; i++) {
+        var e = listeners[i];
+        if (fn == null && ctx != null && e.ctx === ctx || fn != null && ctx == null && e.handler === fn || fn != null && ctx != null && e.handler === fn && e.ctx === ctx) {
+            listeners.splice(i, 1);
+        }
+    }
+    return listeners;
+}
+/**
+ * Makes target, Base, an EventEmitter
+ *
+ * @export
+ * @param {T} Base
+ * @template
+ * @returns {(Constructor<IEventEmitter> & T)}
+ */
+function EventEmitter(Base) {
+    return function (_Base) {
+        _inherits(_class, _Base);
+
+        function _class() {
+            _classCallCheck(this, _class);
+
+            return _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).apply(this, arguments));
+        }
+
+        _createClass(_class, [{
+            key: "on",
+            value: function on(event, fn, ctx) {
+                var once = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+
+                var events = (this._listeners || (this._listeners = new Map())).get(event) || [];
+                events.push({
+                    name: event,
+                    once: once,
+                    handler: fn,
+                    ctx: ctx || this
+                });
+                if (!this._listeners.has(event)) this._listeners.set(event, events);
+                return this;
+            }
+        }, {
+            key: "once",
+            value: function once(event, fn, ctx) {
+                return this.on(event, fn, ctx, true);
+            }
+        }, {
+            key: "off",
+            value: function off(eventName, fn, ctx) {
+                this._listeners = this._listeners || new Map();
+                if (eventName == null && ctx == null) {
+                    this._listeners = new Map();
+                } else if (this._listeners.has(eventName)) {
+                    var events = this._listeners.get(eventName);
+                    if (fn == null && ctx == null) {
+                        this._listeners.set(eventName, []);
+                    } else {
+                        removeFromListener(events, fn, ctx);
+                    }
+                } else {
+                    this._listeners.forEach(function (value) {
+                        removeFromListener(value, fn, ctx);
+                    });
+                    //this._listeners = new Map();
+                }
+                return this;
+            }
+        }, {
+            key: "trigger",
+            value: function trigger(eventName) {
+                this._listeners = this._listeners || new Map();
+                var events = (this._listeners.get(eventName) || []).concat(this._listeners.get("*") || []);
+                var event = void 0,
+                    a = void 0,
+                    index = void 0;
+                var calls = [];
+                var alls = [];
+
+                for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+                    args[_key - 1] = arguments[_key];
+                }
+
+                for (var i = 0, ii = events.length; i < ii; i++) {
+                    event = events[i];
+                    a = args;
+                    if (events[i].name === '*') {
+                        alls.push(events[i]);
+                    } else {
+                        calls.push(events[i]);
+                    }
+                    if (events[i].once === true) {
+                        index = this._listeners.get(events[i].name).indexOf(events[i]);
+                        this._listeners.get(events[i].name).splice(index, 1);
+                    }
+                }
+                if (alls.length) {
+                    var _a = [eventName].concat(args);
+                    this._executeListener(alls, _a);
+                }
+                if (calls.length) this._executeListener(calls, args);else if (eventName === 'error' && EventEmitter.throwOnError) {
+                    if (args.length) {
+                        var _a2 = args[0];
+                        if (!(_a2 instanceof Error)) {
+                            _a2 = new Error(String(_a2));
+                        }
+                        EventEmitter.throwError(_a2);
+                    }
+                }
+                return this;
+            }
+        }, {
+            key: "destroy",
+            value: function destroy() {
+                if (typeof Base.prototype.destroy === 'function') Base.prototype.destroy.call(this);
+                this.off();
+            }
+        }, {
+            key: "_executeListener",
+            value: function _executeListener(func, args) {
+                EventEmitter.executeListenerFunction(func, args);
+            }
+        }, {
+            key: "listeners",
+            get: function get() {
+                return this._listeners;
+            }
+        }]);
+
+        return _class;
+    }(Base);
+}
+exports.EventEmitter = EventEmitter;
+(function (EventEmitter) {
+    /**
+     * If true EventEmitter will call throwError, when when no listeners for the "error" event
+     */
+    EventEmitter.throwOnError = false;
+    function throwError(error) {
+        throw error;
+    }
+    EventEmitter.throwError = throwError;
+    function executeListenerFunction(func, args) {
+        helpers_1.callFunc(func, args);
+    }
+    EventEmitter.executeListenerFunction = executeListenerFunction;
+})(EventEmitter = exports.EventEmitter || (exports.EventEmitter = {}));
+
+/***/ }),
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -901,7 +1051,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 Object.defineProperty(exports, "__esModule", { value: true });
 var view_1 = __webpack_require__(0);
 var types_1 = __webpack_require__(1);
-var mixins_events_1 = __webpack_require__(4);
+var mixins_events_1 = __webpack_require__(6);
 
 var BaseCollectionView = function (_view_1$BaseView) {
     _inherits(BaseCollectionView, _view_1$BaseView);
@@ -1101,7 +1251,7 @@ var CollectionView = function (_BaseCollectionView) {
 exports.CollectionView = CollectionView;
 
 /***/ }),
-/* 11 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1140,7 +1290,7 @@ var Controller = function (_view_1$AbstractView) {
 exports.Controller = Controller;
 
 /***/ }),
-/* 12 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1149,8 +1299,8 @@ exports.Controller = Controller;
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var model_1 = __webpack_require__(5);
-var equaljs_1 = __webpack_require__(7);
+var model_1 = __webpack_require__(2);
+var equaljs_1 = __webpack_require__(10);
 /**
  * Mount a view on the target and bind matched element
  *
@@ -1222,7 +1372,7 @@ function property(target, prop, descriptor) {
 exports.property = property;
 
 /***/ }),
-/* 13 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1238,7 +1388,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var view_1 = __webpack_require__(0);
-var utils_1 = __webpack_require__(6);
+var utils_1 = __webpack_require__(4);
 var singleTag = /^<([a-z][^\/\0>:\x20\t\r\n\f]*)[\x20\t\r\n\f]*\/?>(?:<\/\1>|)$/i,
     slice = Array.prototype.slice;
 function parseHTML(html) {
@@ -1573,7 +1723,7 @@ function html(query, context) {
 exports.html = html;
 
 /***/ }),
-/* 14 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1585,13 +1735,29 @@ function __export(m) {
     }
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(17));
-__export(__webpack_require__(18));
+__export(__webpack_require__(20));
+__export(__webpack_require__(21));
+__export(__webpack_require__(22));
 __export(__webpack_require__(19));
-__export(__webpack_require__(16));
 
 /***/ }),
-/* 15 */
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function __export(m) {
+    for (var p in m) {
+        if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+    }
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__(23));
+__export(__webpack_require__(9));
+
+/***/ }),
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1609,17 +1775,18 @@ function __export(m) {
     }
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-var Mixins = __webpack_require__(14);
+var Mixins = __webpack_require__(16);
 exports.Mixins = Mixins;
 __export(__webpack_require__(1));
-__export(__webpack_require__(9));
-__export(__webpack_require__(10));
+__export(__webpack_require__(7));
 __export(__webpack_require__(12));
-__export(__webpack_require__(5));
+__export(__webpack_require__(14));
 __export(__webpack_require__(2));
-__export(__webpack_require__(6));
-__export(__webpack_require__(11));
+__export(__webpack_require__(3));
+__export(__webpack_require__(4));
 __export(__webpack_require__(13));
+__export(__webpack_require__(15));
+__export(__webpack_require__(17));
 var types_1 = __webpack_require__(1);
 var view_1 = __webpack_require__(0);
 function create(View, element) {
@@ -1647,7 +1814,7 @@ var TemplateView = function (_Mixins$ViewTemplate) {
 exports.TemplateView = TemplateView;
 
 /***/ }),
-/* 16 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1743,7 +1910,7 @@ function ViewElement(Base) {
 exports.ViewElement = ViewElement;
 
 /***/ }),
-/* 17 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1841,7 +2008,7 @@ function ViewMountable(Base) {
 exports.ViewMountable = ViewMountable;
 
 /***/ }),
-/* 18 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1859,7 +2026,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var view_1 = __webpack_require__(0);
-var mixins_events_1 = __webpack_require__(4);
+var mixins_events_1 = __webpack_require__(6);
 var types_1 = __webpack_require__(1);
 function ViewObservable(Base) {
     return function (_Base) {
@@ -1928,7 +2095,7 @@ function ViewObservable(Base) {
 exports.ViewObservable = ViewObservable;
 
 /***/ }),
-/* 19 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1996,7 +2163,126 @@ function ViewTemplate(Base) {
 exports.ViewTemplate = ViewTemplate;
 
 /***/ }),
-/* 20 */
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var view_1 = __webpack_require__(0);
+var array_collection_1 = __webpack_require__(7);
+var model_1 = __webpack_require__(2);
+var types_1 = __webpack_require__(1);
+var request_1 = __webpack_require__(8);
+var rest_model_1 = __webpack_require__(9);
+function restCollection(Base) {
+    return function (_Base) {
+        _inherits(_class, _Base);
+
+        function _class() {
+            _classCallCheck(this, _class);
+
+            var _this = _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).apply(this, arguments));
+
+            _this.Model = rest_model_1.RestModel;
+            return _this;
+        }
+
+        _createClass(_class, [{
+            key: "fetch",
+            value: function fetch() {
+                var _this2 = this;
+
+                view_1.triggerMethodOn(this, 'will:fetch');
+                return request_1.FetchRequest("GET", this.url).then(function (m) {
+                    var result = _this2.parseResponse(m),
+                        models = result.map(function (m) {
+                        return _this2.parseModel(m);
+                    });
+                    view_1.triggerMethodOn(_this2, 'fetch', models);
+                    _this2.reset(models);
+                    return models;
+                });
+            }
+        }, {
+            key: "create",
+            value: function create(options) {
+                var _this3 = this;
+
+                if (options instanceof model_1.Model) {
+                    options = options.toJSON();
+                }
+                var model = this.parseModel(options);
+                return model.save().then(function () {
+                    _this3.push(model);
+                    return model;
+                });
+            }
+        }, {
+            key: "parseResponse",
+            value: function parseResponse(data) {
+                return data.body;
+            }
+        }, {
+            key: "parseModel",
+            value: function parseModel(data) {
+                if (data instanceof this.Model) {
+                    return data;
+                } else if (data instanceof model_1.Model) {
+                    data = data.toJSON();
+                }
+                var model = types_1.Invoker.get(this.Model);
+                model.set(data, { silent: true });
+                model.rootUrl = this.url;
+                console.log(model);
+                return model;
+            }
+        }, {
+            key: "url",
+            set: function set(path) {
+                this._rootUrl = path;
+            },
+            get: function get() {
+                return this._rootUrl;
+            }
+        }]);
+
+        return _class;
+    }(Base);
+}
+exports.restCollection = restCollection;
+
+var RestCollection = function (_restCollection) {
+    _inherits(RestCollection, _restCollection);
+
+    function RestCollection(options) {
+        _classCallCheck(this, RestCollection);
+
+        var _this4 = _possibleConstructorReturn(this, (RestCollection.__proto__ || Object.getPrototypeOf(RestCollection)).call(this));
+
+        _this4.options = options;
+        _this4.options = options || { url: void 0 };
+        if (_this4.options.url) _this4.url = options.url;
+        _this4.Model = options.Model || _this4.Model;
+        return _this4;
+    }
+
+    return RestCollection;
+}(restCollection(array_collection_1.ArrayCollection));
+
+exports.RestCollection = RestCollection;
+
+/***/ }),
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2013,8 +2299,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var event_emitter_1 = __webpack_require__(8);
-var helpers_1 = __webpack_require__(3);
+var event_emitter_1 = __webpack_require__(11);
+var helpers_1 = __webpack_require__(5);
 function EventListener(Base) {
     return function (_Base) {
         _inherits(_class, _Base);
