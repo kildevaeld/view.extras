@@ -7,7 +7,7 @@ export declare function isPropertyKey(a: any): a is PropertyKey;
  * @param {boolean} [coerce=false]
  * @returns
  */
-export declare function getValue(el: HTMLElement, coerce?: boolean): string | number | Date | {
+export declare function getValue(el: HTMLElement, coerce?: boolean): string | number | boolean | Date | {
     value: string;
     text: string;
 };

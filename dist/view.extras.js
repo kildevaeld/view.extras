@@ -366,7 +366,7 @@ function getValue(el) {
         isCheckbox = /checkbox/.test(type),
         isSelect = /select/.test(el.nodeName);
     if (isCheckbox) {
-        Boolean(el.checked);
+        return Boolean(el.checked);
     } else if (isSelect) {
         if (!coerce) return el.value || '';
         var option = el.options[el.selectedIndex];

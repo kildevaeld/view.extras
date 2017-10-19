@@ -18,7 +18,7 @@ export function getValue(el: HTMLElement, coerce: boolean = false) {
         isSelect = /select/.test(el.nodeName);
 
     if (isCheckbox) {
-        Boolean((el as HTMLInputElement).checked);
+        return Boolean((el as HTMLInputElement).checked);
     } else if (isSelect) {
         if (!coerce) return (el as HTMLInputElement).value || '';
         let option = (el as HTMLSelectElement).options[(el as HTMLSelectElement).selectedIndex];
