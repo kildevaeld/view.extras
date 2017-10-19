@@ -1635,10 +1635,16 @@ exports.create = create;
 var TemplateView = function (_Mixins$ViewTemplate) {
     _inherits(TemplateView, _Mixins$ViewTemplate);
 
-    function TemplateView() {
+    function TemplateView(options) {
         _classCallCheck(this, TemplateView);
 
-        return _possibleConstructorReturn(this, (TemplateView.__proto__ || Object.getPrototypeOf(TemplateView)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (TemplateView.__proto__ || Object.getPrototypeOf(TemplateView)).call(this, options));
+
+        if (options && options.template) {
+            _this.template = options.template;
+        }
+        if (options && options.model) {}
+        return _this;
     }
 
     return TemplateView;
