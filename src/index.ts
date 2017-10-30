@@ -35,7 +35,7 @@ export interface TemplateViewOptions extends BaseViewOptions<HTMLElement> {
 
 
 export class TemplateView extends Mixins.ViewTemplate(Mixins.ViewElement(View)) implements IViewTemplate, IViewElement {
-
+	data: any;
 	constructor(options?: TemplateViewOptions) {
 		super(options);
 		if (options && options.template) {
@@ -43,7 +43,7 @@ export class TemplateView extends Mixins.ViewTemplate(Mixins.ViewElement(View)) 
 		}
 
 		if (options && options.model) {
-
+			this.data = options.model;
 		}
 	}
 

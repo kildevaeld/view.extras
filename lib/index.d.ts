@@ -18,5 +18,6 @@ export interface TemplateViewOptions extends BaseViewOptions<HTMLElement> {
 }
 declare const TemplateView_base: Constructor<IViewTemplate> & Constructor<IViewElement> & typeof View;
 export declare class TemplateView extends TemplateView_base implements IViewTemplate, IViewElement {
+    data: any;
     constructor(options?: TemplateViewOptions);
 }

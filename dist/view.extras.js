@@ -1643,7 +1643,9 @@ var TemplateView = function (_Mixins$ViewTemplate) {
         if (options && options.template) {
             _this.template = options.template;
         }
-        if (options && options.model) {}
+        if (options && options.model) {
+            _this.data = options.model;
+        }
         return _this;
     }
 
