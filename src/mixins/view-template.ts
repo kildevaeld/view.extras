@@ -21,7 +21,7 @@ export function ViewTemplate<T extends Constructor<BaseView<E>>, E extends Eleme
         destroy() {
             let data = this.getTemplateData();
             let template = result(this, 'template', data);
-            if (template)
+            if (template && this.el)
                 this.el!.innerHTML = ''
             super.destroy();
         }

@@ -74,7 +74,8 @@ export class BaseCollectionView<T extends Element, U extends ICollection<M>, M, 
         for (let i = 0, ii = this._childViews.length; i < ii; i++) {
             const v = this._childViews[i];
             v.destroy();
-            v.el!.remove();
+            if (v.el && v.el.parentNode)
+                v.el.parentElement.removeChild(v.el)
         }
 
 

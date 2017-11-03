@@ -948,7 +948,7 @@ var BaseCollectionView = function (_view_1$BaseView) {
             for (var i = 0, ii = this._childViews.length; i < ii; i++) {
                 var v = this._childViews[i];
                 v.destroy();
-                v.el.remove();
+                if (v.el && v.el.parentNode) v.el.parentElement.removeChild(v.el);
             }
             this._childViews = [];
         }
@@ -1984,7 +1984,7 @@ function ViewTemplate(Base) {
             value: function destroy() {
                 var data = this.getTemplateData();
                 var template = view_1.result(this, 'template', data);
-                if (template) this.el.innerHTML = '';
+                if (template && this.el) this.el.innerHTML = '';
                 _get(_class.prototype.__proto__ || Object.getPrototypeOf(_class.prototype), "destroy", this).call(this);
             }
         }, {
