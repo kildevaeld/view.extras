@@ -65,10 +65,14 @@ export function ViewMountable<T extends Constructor<IView>>(Base: T): Constructo
                 el = this.el!.querySelector(sel);
                 if (!el && !o.optional) throw new ReferenceError(`selector "${sel}" for view ${o.view.name} not found in dom`);
 
+                // No element - return!
+                if (!el) return;
+
                 let view: BaseView<Element> = (<any>this)[key];
                 if (!view) throw new ReferenceError(`view "${o.view.name}" not mount`);
                 view.setElement(el, false);
                 view.render();
+
             }
         }
     }
